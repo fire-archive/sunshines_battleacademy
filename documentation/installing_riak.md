@@ -23,7 +23,26 @@ curl -v 172.17.0.2:8098/types/strongly_consistent/buckets/test/keys/hello \
   -H "Content-type: text/plain" \
   -d "world"
 curl -v 172.17.0.2:8098/types/strongly_consistent/buckets/test/keys/hello
+```
 
+```elixir
+# Test strongly consistent key
+
+iex -S mix phx.server
+{:ok, pid} = Riak.Connection.start_link('172.17.0.2', 8087)
+o = Riak.Object.create(type: "strongly_consistent", bucket: "test", key: "my_key_02", data: "Han Solo")
+Riak.put(pid, 0)
+# Find a strongly consistent key value
+Riak.find(pid, {"strongly_consistent", "test"}, "hello")
+# List all buckets
+Riak.Bucket.list(pid)
+# List all buckets in a type
+Riak.Bucket.Type.list(pid, "strongly_consistent")
+# List all the keys in a bucket
+Riak.Bucket.keys(pid, "strongly_consistent", "test")
+```
+
+```bash
 # Finally, to stop the cluster execute the following:
 make stop cluster
 ```
