@@ -30,6 +30,7 @@ defmodule SunshinesBattleacademy.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.3.0-rc"},
      {:phoenix_pubsub, "~> 1.0"},
+     {:riak, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2"},
      {:poison, "~> 3.0", override: true},
      {:sqlite_ecto2, "~> 2.0.0-dev.4"},
