@@ -29,13 +29,13 @@ var socket;
 function start(type) {
     global.nickname = nickname.value.replace(/(<([^>]+)>)/ig, '').substring(0,24);
     global.playerType = type;
-    
+
     global.screenWidth = window.innerWidth;
     global.screenHeight = window.innerHeight;
-    
+
     document.getElementById('menuContainer').style.maxHeight = '0px';
     document.getElementById('clientContainer').style.opacity = 1;
-    
+
     if(!global.animLoopHandle)
         animloop();
 }
@@ -61,13 +61,13 @@ function loadGame() {
         spectateBtn = getEle('spectateBtn'),
         settingsBtn = getEle('settingsBtn'),
         settingsContainer = getEle('settings');
-        
+
     spectateBtn.addEventListener('click', (e) => {
         start('spectate');
     }, false);
-    
+
     startBtn.addEventListener('click', play, false);
-    
+
     settingsBtn.addEventListener('click', (e) => {
         if(settings.style.maxHeight == '300px') {
             settings.style.maxHeight = '0px';
@@ -75,7 +75,7 @@ function loadGame() {
             settings.style.maxHeight = '300px';
         }
     }, false);
-    
+
     nickname.addEventListener('keypress', function(e) {
         var key = e.which || e.keyCode;
         if(key === 13) {
@@ -108,7 +108,7 @@ global.player = player;
 let foods = [],
     users = [],
     target = {x: player.x, y: player.y};
-    
+
 global.target = target;
 
 window.canvas = new Canvas();
@@ -132,16 +132,16 @@ function drawCircle(centerX, centerY, radius, sides) {
     let theta = 0,
         x = 0;
         y = 0;
-        
+
     graph.beginPath();
-    
+
     for(let i = 0; i < sides; i++) {
         theta = (i / sides) * 2 * Math.PI;
         x = centerX + radius * Math.sin(theta);
         y = centerY + radius * Math.cos(theta);
         graph.lineTo(x, y);
     }
-    
+
     graph.closePath();
     graph.stroke();
     graph.fill();
@@ -156,12 +156,12 @@ function drawgrid() {
         graph.moveTo(x, 0);
         graph.lineTo(x, global.screenHeight);
     }
-    
+
     for (let y = global.yoffset - player.y; y < global.screenHeight; y += global.screenHeight / 18) {
         graph.moveTo(0, y);
         graph.lineTo(global.screenWidth, y);
     }
-    
+
     graph.stroke();
     graph.globalAlpha = 1;
 }
@@ -171,29 +171,29 @@ function drawPlayers(order) {
         x: player.x - (global.screenWidth / 2),
         y: player.y - (global.screenHeight / 2)
     };
-    
+
     for(let n = 0; n < order.length; n++)
     {
         let userCurrent = users[order[n].nCell],
             cellCurrent = userCurrent.cells[order[n].nDiv],
             x = 0, y = 0;
-        
+
         let points = 30;
-        
+
         graph.strokeStyle = 'hsl(' + userCurrent.hue + ', 100%, 45%)';
         graph.fillStyle = 'hsl(' + userCurrent.hue + ', 100%, 50%)';
         graph.lineWidth = playerConfig.border;
-        
+
         let xstore = [], ystore = [];
-        
+
         global.spin += 0.0;
-        
+
         let circle = {
             x: cellCurrent.x - start.x,
             y: cellCurrent.y - start.y
         };
-        
-        
+
+
     }
 }
 
@@ -218,7 +218,7 @@ function gameLoop() {
     if(global.gameStart) {
         graph.fillStyle = global.backgroundColor;
         graph.fillRect(0, 0, global.screenWidth, global.screenHeight);
-        
+
         drawgrid();
     }
 }
