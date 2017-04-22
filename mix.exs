@@ -1,8 +1,8 @@
-defmodule IfiresSunshineBattleacademy.Mixfile do
+defmodule SunshinesBattleacademy.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :ifires_sunshine_battleacademy,
+    [app: :sunshines_battleacademy,
      version: "0.0.1",
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -16,7 +16,7 @@ defmodule IfiresSunshineBattleacademy.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {IfiresSunshineBattleacademy.Application, []},
+    [mod: {SunshinesBattleacademy.Application, []},
      extra_applications: [:logger, :runtime_tools]]
   end
 

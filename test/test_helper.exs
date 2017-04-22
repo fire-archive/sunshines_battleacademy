@@ -1,4 +1,4 @@
 ExUnit.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(IfiresSunshineBattleacademy.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(SunshinesBattleacademy.Repo, :manual)
 

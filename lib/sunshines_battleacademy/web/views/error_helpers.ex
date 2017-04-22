@@ -1,4 +1,4 @@
-defmodule IfiresSunshineBattleacademy.Web.ErrorHelpers do
+defmodule SunshinesBattleacademy.Web.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -32,9 +32,9 @@ defmodule IfiresSunshineBattleacademy.Web.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(IfiresSunshineBattleacademy.Web.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(SunshinesBattleacademy.Web.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(IfiresSunshineBattleacademy.Web.Gettext, "errors", msg, opts)
+      Gettext.dgettext(SunshinesBattleacademy.Web.Gettext, "errors", msg, opts)
     end
   end
 end

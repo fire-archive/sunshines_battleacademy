@@ -1,4 +1,4 @@
-# IfiresSunshineBattleacademy
+# SunshinesBattleacademy
 
 To start your Phoenix server:
 

@@ -1,12 +1,12 @@
-defmodule IfiresSunshineBattleacademy.Web do
+defmodule SunshinesBattleacademy.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use IfiresSunshineBattleacademy.Web, :controller
-      use IfiresSunshineBattleacademy.Web, :view
+      use SunshinesBattleacademy.Web, :controller
+      use SunshinesBattleacademy.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -18,17 +18,17 @@ defmodule IfiresSunshineBattleacademy.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: IfiresSunshineBattleacademy.Web
+      use Phoenix.Controller, namespace: SunshinesBattleacademy.Web
       import Plug.Conn
-      import IfiresSunshineBattleacademy.Web.Router.Helpers
-      import IfiresSunshineBattleacademy.Web.Gettext
+      import SunshinesBattleacademy.Web.Router.Helpers
+      import SunshinesBattleacademy.Web.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "lib/ifires_sunshine_battleacademy/web/templates",
-                        namespace: IfiresSunshineBattleacademy.Web
+      use Phoenix.View, root: "lib/sunshines_battleacademy/web/templates",
+                        namespace: SunshinesBattleacademy.Web
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -36,9 +36,9 @@ defmodule IfiresSunshineBattleacademy.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import IfiresSunshineBattleacademy.Web.Router.Helpers
-      import IfiresSunshineBattleacademy.Web.ErrorHelpers
-      import IfiresSunshineBattleacademy.Web.Gettext
+      import SunshinesBattleacademy.Web.Router.Helpers
+      import SunshinesBattleacademy.Web.ErrorHelpers
+      import SunshinesBattleacademy.Web.Gettext
     end
   end
 
@@ -53,7 +53,7 @@ defmodule IfiresSunshineBattleacademy.Web do
   def channel do
     quote do
       use Phoenix.Channel
-      import IfiresSunshineBattleacademy.Web.Gettext
+      import SunshinesBattleacademy.Web.Gettext
     end
   end
 

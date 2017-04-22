@@ -1,14 +1,14 @@
-defmodule IfiresSunshineBattleacademy.Web.Endpoint do
-  use Phoenix.Endpoint, otp_app: :ifires_sunshine_battleacademy
+defmodule SunshinesBattleacademy.Web.Endpoint do
+  use Phoenix.Endpoint, otp_app: :sunshines_battleacademy
 
-  socket "/socket", IfiresSunshineBattleacademy.Web.UserSocket
+  socket "/socket", SunshinesBattleacademy.Web.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :ifires_sunshine_battleacademy, gzip: false,
+    at: "/", from: :sunshines_battleacademy, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -35,10 +35,10 @@ defmodule IfiresSunshineBattleacademy.Web.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_ifires_sunshine_battleacademy_key",
+    key: "_sunshines_battleacademy_key",
     signing_salt: "PBooLQcU"
 
-  plug IfiresSunshineBattleacademy.Web.Router
+  plug SunshinesBattleacademy.Web.Router
 
   @doc """
   Dynamically loads configuration from the system environment

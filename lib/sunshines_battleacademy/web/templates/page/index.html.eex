@@ -3,7 +3,7 @@
 </div>
 <div id="menuContainer">
     <div id="menu">
-        <h1>iFire's Sunshine Battleacademy</h1>
+        <h1>Sunshine's Battleacademy</h1>
         <input type="text" autofocus placeholder="Nickname" id="nickname" maxlength="24">
         <button class='button' id="startGameBtn">Play</button>
         <button class='button' id="settingsBtn">Settings</button>
