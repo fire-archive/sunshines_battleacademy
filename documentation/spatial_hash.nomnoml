@@ -1,6 +1,6 @@
 [spatial_hash_table|
-  -- https://github.com/dougbinks/enkiTS
-  -- riak strong consistency
+  <note> http://www.graphics.stanford.edu/~niessner/papers/2013/4hashing/niessner2013hashing.pdf
+  <note> riak strong consistency
   FetchVoxel(global_location_list loc, opts)
   UpdateVoxel(voxel_list voxel, opts)
 ] +-> 0..* [hash_entry|byte offset;
