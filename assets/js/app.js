@@ -12,76 +12,31 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-import {Socket, LongPoller} from "phoenix"
 
 import Canvas from './canvas';
-import global from './global';
 import MenuController from './menu';
-
-var nickname = document.getElementById('nickname');
-
+import World from './world';
 import socket from './socket';
 
-function onGameStart(nickname, type) {
-    global.nickname = nickname;
-    global.playerType = type;
+let gameStarted = false, animLoopHandle = undefined;
+
+function onGameStart(nickname, type, hue) {
+    gameStarted = true;
     
-    global.screenWidth = window.innerWidth;
-    global.screenHeight = window.innerHeight;
+    // Setup canvas
+    if(!window.canvas)
+        window.canvas = new Canvas(window.innerWidth, window.innerHeight);
     
-    global.gameStart = true;
+    // spawn player
+    World.spawnPlayer(type === 'spectate', nickname, hue);
     
-    if(type === 'player')
-    {
-        spawnPlayer();
-    }
-    
-    if(!global.animLoopHandle)
+    // start animation loop
+    if(!animLoopHandle)
         animloop();
     
-    console.log("Game started in mode: "+type);
+    window.canvas.element.focus();
+    console.log(`Game started in mode: ${type} with nickname: ${nickname}`);
     // Deal with socket here
-}
-
-window.onload = () => {
-    window.menu = new MenuController(onGameStart);
-    window.menu.bindEvents();
-};
-
-let playerConfig = {
-    border: 6,
-    textFillColor: '#FFFFFF',
-    textStrokeColor: '#000000',
-    textStrokeSize: 3,
-    defaultSize: 30,
-};
-
-let player = {
-    id: -1,
-    x: global.screenWidth / 2,
-    y: global.screenHeight / 2,
-    screenWidth: global.screenWidth,
-    screenHeight: global.screenHeight,
-};
-
-global.player = player;
-
-let users = [];
-
-window.canvas = new Canvas();
-
-let c = window.canvas.canvas,
-    graph = c.getContext('2d');
-
-function spawnPlayer() {
-    player = {
-        name: global.nickname,
-        x: global.screenWidth / 2,
-        y: global.screenHeight / 2,
-    };
-    
-    global.player = player;
-    c.focus();
 }
 
 window.requestAnimFrame = (() => {
@@ -97,21 +52,21 @@ window.cancelAnimFrame = ((handle) => {
 })();
 
 function animloop() {
-    global.animLoopHandle = window.requestAnimFrame(animloop);
+    animLoopHandle = window.requestAnimFrame(animloop);
     gameLoop();
 }
 
 function gameLoop() {
-    if(global.gameStart) {
-        graph.fillStyle = global.backgroundColor;
-        graph.fillRect(0, 0, global.screenWidth, global.screenHeight);
-
-        global.canvas.drawgrid(-player.x, -player.y, global.screenWidth, global.screenHeight);
-        
-        // Draw player
-        graph.strokeStyle = 'hsl(100, 100%, 45%)';
-        graph.fillStyle = 'hsl(100, 100%, 50%)';
-        graph.lineWidth = playerConfig.border;
-        global.canvas.drawCircle(player.x, player.y, 30);
+    if(gameStarted) {
+        World.draw();
     }
 }
+
+window.onload = () => {
+    window.menu = new MenuController(onGameStart);
+    window.menu.bindEvents();
+};
+
+window.addEventListener('resize', (e) => {
+    window.canvas.resize(window.innerWidth, window.innerHeight)
+});
