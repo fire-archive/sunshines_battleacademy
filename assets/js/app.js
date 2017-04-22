@@ -12,19 +12,16 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 import "phoenix_html"
-
-// Import local files
-//
-// Local files can be imported directly using relative
-// paths "./socket" or full ones "web/static/js/socket".
-
-// import socket from "./socket";
+import {Socket, LongPoller} from "phoenix"
 
 import Canvas from './canvas';
 import global from './global';
 
 var nickname = document.getElementById('nickname');
-var socket;
+
+let socket = new Socket("/socket", {
+    logger: ((kind, msg, data) => { console.log(`${kind}: ${msg}`, data) })
+})
 
 function start(type) {
     global.nickname = nickname.value.replace(/(<([^>]+)>)/ig, '').substring(0,24);
@@ -35,6 +32,18 @@ function start(type) {
 
     document.getElementById('menuContainer').style.maxHeight = '0px';
     document.getElementById('clientContainer').style.opacity = 1;
+
+    socket.connect(global.nickname)
+    socket.onOpen( ev => console.log("OPEN", ev) )
+    socket.onError( ev => console.log("ERROR", ev) )
+    socket.onClose( e => console.log("CLOSE", e))
+
+    var chan = socket.channel("room:lobby", {})
+    chan.join().receive("ignore", () => console.log("auth error"))
+        .receive("ok", () => console.log("join ok"))
+        .after(10000, () => console.log("Connection interruption"))
+    chan.onError(e => console.log("something went wrong", e))
+    chan.onClose(e => console.log("channel closed", e))
 
     if(!global.animLoopHandle)
         animloop();
