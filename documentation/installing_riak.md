@@ -4,6 +4,7 @@ From https://ecolabardini.github.io/2016/04/17/riak-docker-strong-consistency/
 
 ```bash
 git clone https://github.com/hectcastro/docker-riak.git
+# Permissions may require sudo. Depends if docker is accesible
 cd docker-riak && make build
 # Running a 5 node cluster with strong consistency enabled:
 export DOCKER_HOST="unix:///var/run/docker.sock"
@@ -15,6 +16,14 @@ docker exec -it riak01 bash
 riak-admin bucket-type create strongly_consistent \ 
   '{"props":{"consistent":true}}'
 riak-admin bucket-type activate strongly_consistent
+
+# Test if the cluster is working
+curl -v 172.17.0.2:8098/types/strongly_consistent/buckets/test/keys/hello \
+  -X PUT \
+  -H "Content-type: text/plain" \
+  -d "world"
+curl -v 172.17.0.2:8098/types/strongly_consistent/buckets/test/keys/hello
+
 # Finally, to stop the cluster execute the following:
 make stop cluster
 ```
