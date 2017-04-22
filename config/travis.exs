@@ -12,5 +12,6 @@ config :logger, level: :warn
 # Configure your database
 config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Repo,
   adapter: Sqlite.Ecto2,
-  database: "fires_sunshine_battleacademy_test.sqlite3"
-
+  database: "fires_sunshine_battleacademy_test.sqlite3",
+  pool: Ecto.Adapters.SQL.Sandbox
+ 
