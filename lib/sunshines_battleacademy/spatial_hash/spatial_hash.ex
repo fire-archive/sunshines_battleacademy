@@ -1,11 +1,12 @@
 defmodule SunshinesBattleacademy.SpatialHash do
   @max_safe_integer 9007199254740991
+  @hash_table "hash_table"
   use Bitwise
 
   def findBlock(pos, opts \\ []) do
     for	n <- pos do
         try do
-          out = Riak.find({"strongly_consistent", "hash_table"}, to_string(hash(n.x, n.y, n.z)))
+          out = Riak.find({"strongly_consistent", @hash_table}, to_string(hash(n.x, n.y, n.z)))
           {:ok, out}
         catch
           :exit, _ -> {:error, "There was an error finding the key."}
@@ -21,7 +22,7 @@ defmodule SunshinesBattleacademy.SpatialHash do
     for	n <- pos_data do
         %{pos: pos, data: data} = n
         fetch = []
-        o = Riak.Object.create(type: "strongly_consistent", bucket: "hash_table", key: to_string(hash(n.x, n.y, n.z)), data: fetch ++ data)
+        o = Riak.Object.create(type: "strongly_consistent", bucket: @hash_table, key: to_string(hash(n.x, n.y, n.z)), data: fetch ++ data)
         Riak.put(o)
     end
   end
