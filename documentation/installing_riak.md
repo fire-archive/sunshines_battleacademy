@@ -31,7 +31,7 @@ curl -v 172.17.0.2:8098/types/strongly_consistent/buckets/test/keys/hello
 iex -S mix phx.server
 {:ok, pid} = Riak.Connection.start_link('172.17.0.2', 8087)
 o = Riak.Object.create(type: "strongly_consistent", bucket: "test", key: "my_key_02", data: "Han Solo")
-Riak.put(pid, 0)
+Riak.put(pid, o)
 # Find a strongly consistent key value
 Riak.find(pid, {"strongly_consistent", "test"}, "hello")
 # List all buckets
@@ -40,13 +40,15 @@ Riak.Bucket.list(pid)
 Riak.Bucket.Type.list(pid, "strongly_consistent")
 # List all the keys in a bucket
 Riak.Bucket.keys(pid, "strongly_consistent", "test")
-
-
+# Rescue key search failures
 try do
-Riak.find({"strongly_consistent", "test"}, 0)
-catch 
-:exit, _ -> {:error, "There was an error finding the key."}
+  Riak.find({"strongly_consistent", "test"}, 0)
+catch
+  :exit, _ -> {:error, "There was an error finding the key."}
 end
+
+o = Riak.Object.create(type: "strongly_consistent", bucket: "hash_table", key: to_string(SunshinesBattleacademy.SpatialHash.hash(0, 1, 0)), data: "test") 
+Riak.put(o)
 
 ```
 

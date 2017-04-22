@@ -5,7 +5,7 @@ defmodule SunshinesBattleacademy.SpatialHash do
   def findBlock(pos, opts \\ []) do
     for	n <- pos do
         try do
-          out = Riak.find({"strongly_consistent", "test"}, 0)
+          out = Riak.find({"strongly_consistent", "hash_table"}, to_string(hash(n.x, n.y, n.z)))
           {:ok, out}
         catch
           :exit, _ -> {:error, "There was an error finding the key."}
