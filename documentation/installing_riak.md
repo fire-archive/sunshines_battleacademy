@@ -40,6 +40,14 @@ Riak.Bucket.list(pid)
 Riak.Bucket.Type.list(pid, "strongly_consistent")
 # List all the keys in a bucket
 Riak.Bucket.keys(pid, "strongly_consistent", "test")
+
+
+try do
+Riak.find({"strongly_consistent", "test"}, 0)
+catch 
+:exit, _ -> {:error, "There was an error finding the key."}
+end
+
 ```
 
 ```bash
