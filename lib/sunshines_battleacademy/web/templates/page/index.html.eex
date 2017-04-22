@@ -1,0 +1,18 @@
+<div id="clientContainer">
+    <canvas id="game_area"></canvas>
+</div>
+<div id="menuContainer">
+    <div id="menu">
+        <h1>Sunshine's Battleacademy</h1>
+        <input type="text" autofocus placeholder="Nickname" id="nickname" maxlength="24">
+        <button class='button' id="startGameBtn">Play</button>
+        <button class='button' id="spectateBtn">Spectate</button>
+        <button class='button' id="settingsBtn">Settings</button>
+        <div id="settings">
+            <h3>Settings</h3>
+            <ul>
+                <label><input type="checkbox">No Settings Yet</label>
+            </ul>
+        </div>
+    </div>
+</div>

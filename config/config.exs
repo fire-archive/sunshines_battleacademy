@@ -6,15 +6,15 @@
 use Mix.Config
 
 # General application configuration
-config :ifires_sunshine_battleacademy,
-  ecto_repos: [IfiresSunshineBattleacademy.Repo]
+config :sunshines_battleacademy,
+  ecto_repos: [SunshinesBattleacademy.Repo]
 
 # Configures the endpoint
-config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Web.Endpoint,
+config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "GTB+p5O2Qwmum6SHKGEz5dIK24YnqANtriL0EGGpjKEncEFvpS6w3qcDAD9pxkZf",
-  render_errors: [view: IfiresSunshineBattleacademy.Web.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: IfiresSunshineBattleacademy.PubSub,
+  render_errors: [view: SunshinesBattleacademy.Web.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: SunshinesBattleacademy.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

@@ -1,5 +1,5 @@
-defmodule IfiresSunshineBattleacademy.Web.PageControllerTest do
-  use IfiresSunshineBattleacademy.Web.ConnCase
+defmodule SunshinesBattleacademy.Web.PageControllerTest do
+  use SunshinesBattleacademy.Web.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

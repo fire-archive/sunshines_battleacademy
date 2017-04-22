@@ -1,5 +1,5 @@
-defmodule IfiresSunshineBattleacademy.Web.Router do
-  use IfiresSunshineBattleacademy.Web, :router
+defmodule SunshinesBattleacademy.Web.Router do
+  use SunshinesBattleacademy.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,14 +13,14 @@ defmodule IfiresSunshineBattleacademy.Web.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", IfiresSunshineBattleacademy.Web do
+  scope "/", SunshinesBattleacademy.Web do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", IfiresSunshineBattleacademy.Web do
+  # scope "/api", SunshinesBattleacademy.Web do
   #   pipe_through :api
   # end
 end

@@ -1,5 +1,5 @@
-defmodule IfiresSunshineBattleacademy.Web.ErrorView do
-  use IfiresSunshineBattleacademy.Web, :view
+defmodule SunshinesBattleacademy.Web.ErrorView do
+  use SunshinesBattleacademy.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

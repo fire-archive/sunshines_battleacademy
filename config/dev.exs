@@ -6,7 +6,7 @@ use Mix.Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
-config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Web.Endpoint,
+config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
@@ -31,13 +31,13 @@ config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Web.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Web.Endpoint,
+config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/ifires_sunshine_battleacademy/web/views/.*(ex)$},
-      ~r{lib/ifires_sunshine_battleacademy/web/templates/.*(eex)$}
+      ~r{lib/sunshines_battleacademy/web/views/.*(ex)$},
+      ~r{lib/sunshines_battleacademy/web/templates/.*(eex)$}
     ]
   ]
 
@@ -49,6 +49,6 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
-config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Repo,
+config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
   adapter: Sqlite.Ecto2,
-  database: "fires_sunshine_battleacademy_dev.sqlite3"
+  database: "fires_sunshines_battleacademy_dev.sqlite3"

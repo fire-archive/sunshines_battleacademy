@@ -1,3 +1,3 @@
-defmodule IfiresSunshineBattleacademy.Web.LayoutViewTest do
-  use IfiresSunshineBattleacademy.Web.ConnCase, async: true
+defmodule SunshinesBattleacademy.Web.LayoutViewTest do
+  use SunshinesBattleacademy.Web.ConnCase, async: true
 end
