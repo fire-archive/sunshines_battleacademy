@@ -50,9 +50,5 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :ifires_sunshine_battleacademy, IfiresSunshineBattleacademy.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "ifires_sunshine_battleacademy_dev",
-  hostname: "localhost",
-  pool_size: 10
+  adapter: Sqlite.Ecto2,
+  database: "fires_sunshine_battleacademy_dev.sqlite3"
