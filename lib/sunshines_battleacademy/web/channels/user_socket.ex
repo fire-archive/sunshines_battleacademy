@@ -2,7 +2,7 @@ defmodule SunshinesBattleacademy.Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", SunshinesBattleacademy.Web.RoomChannel
+  channel "room:lobby", SunshinesBattleacademy.Web.LobbyChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket

@@ -1,0 +1,15 @@
+[spatial_hash_table|
+  <note> http://www.graphics.stanford.edu/~niessner/papers/2013/4hashing/niessner2013hashing.pdf
+  <note> riak strong consistency
+  FetchPixel(global_location_list loc, opts)
+  UpdatePixel(voxel_list voxel, opts)
+] +-> 0..* [hash_entry|byte offset;
+uuid pointer]
+[spatial_hash_table] +-> 0..* [voxel_list|global_location_list loc]
+[spatial_hash_table] +-> 0..* [global_location_list|int64 x; int64 y]
+[hash_entry] +-> 1..1 [block_location|byte x; byte y]
+
+[spatial_block_uuid] +-> 0..8^2 [block_data]
+
+[block_data] +-> 0..1 [pixel|float sdf;float weight]
+[pixel] +-> 1..1 [base_color|float r; float g; float b]
