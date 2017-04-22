@@ -5,8 +5,11 @@ otp_release:
   - 18.2.1
 addons:
 services:
+  - riak
 before_script:
   - cp config/travis.exs config/test.exs
   - mix do ecto.create, ecto.migrate
+  - sudo sed -i -e "s/strong_consistency = off/strong_consistency = on/g" /etc/riak/riak.conf
+  - sudo service riak restart
 script:
   - mix test --exclude integration
