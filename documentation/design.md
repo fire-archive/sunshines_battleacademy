@@ -17,7 +17,7 @@ For n bucket (8^2) fetch all keys 60 times a second.
 * playercheck
 * pass
 * kick
-* 0 (heartbeat
+* 0 (heartbeat)
 * 1 (fire food)
 * 2 (split cell)
 
@@ -26,7 +26,12 @@ For n bucket (8^2) fetch all keys 60 times a second.
 THERE IS NO GAME MANAGER OR LOOP THAT MANAGES THE ENTIRE STATE OF THE WORLD.
 
 Per entity.
+
 * move loop repeated 1000ms / 60
   - tick player
   - move food
 * game loop repeated 1000ms
+
+## Designs
+
+![Storage of grid elements](grid.nomnoml.png "Logo Title Text 1")
