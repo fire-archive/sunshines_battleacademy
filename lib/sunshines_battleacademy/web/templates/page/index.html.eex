@@ -6,16 +6,17 @@
         <h1>Sunshine's Battleacademy</h1>
         <p id='nicknameError'>That nickname is invalid<br />Please use alphanumeric characters only</p>
         <input type="text" autofocus placeholder="Nickname" id="nickname" maxlength="24">
-        <div id='huePreview'><p class='white centered'>Color</p></div>
-        <input id="hue" type="range" min="0" max="360" step="1">
         <button class='button' id="startGameBtn">Play</button>
         <button class='button' id="spectateBtn">Spectate</button>
         <button class='button' id="settingsBtn">Settings</button>
         <div id="settings">
             <h3>Settings</h3>
-            <ul>
-                <label><input type="checkbox">No Settings Yet</label>
-            </ul>
+            <div id='huePreview'><p class='white centered'>Color</p></div>
+            <input id="hue" type="range" min="0" max="360" step="1">
         </div>
     </div>
 </div>
+<article id='chatContainer'>
+    <section id='chatMessages'></section>
+    <input type='text' id='chatInput' placeholder='Press Enter to send Chat'>
+</article>

@@ -122,3 +122,45 @@ html, body, canvas {
     text-align: center;
     line-height: 25px;
 }
+
+#chatContainer {
+    z-index: 999;
+    -webkit-transition: max-height 0.5s;
+    -moz-transition: max-height 0.5s;
+    -ms-transition: max-height 0.5s;
+    -o-transition: max-height 0.5s;
+    transition: max-height 0.5s;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    min-width: 250px;
+    width: 25vw;
+    overflow: hidden;
+    max-height: 0;
+}
+
+#chatMessages {
+    -webkit-transition: height 0.5s;
+    -moz-transition: height 0.5s;
+    -ms-transition: height 0.5s;
+    -o-transition: height 0.5s;
+    transition: height 0.5s;
+    background-color: rgba(255,255,255,0.75);
+    max-height: 150px;
+    overflow-y: auto;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#chatInput {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.msg_date {
+    color: #888888;
+}
+
+.msg_user {
+    color: red;
+}

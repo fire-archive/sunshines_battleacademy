@@ -17,6 +17,7 @@ import Canvas from './canvas';
 import MenuController from './menu';
 import World from './world';
 import socket from './socket';
+import chat from './chat';
 
 let gameStarted = false, animLoopHandle = undefined;
 
@@ -29,6 +30,9 @@ function onGameStart(nickname, type, hue) {
     
     // spawn player
     World.spawnPlayer(type === 'spectate', nickname, hue);
+    
+    // Connect to chat
+    chat.connect(socket, nickname);
     
     // start animation loop
     if(!animLoopHandle)
@@ -68,5 +72,6 @@ window.onload = () => {
 };
 
 window.addEventListener('resize', (e) => {
-    window.canvas.resize(window.innerWidth, window.innerHeight)
+    if(window.canvas)
+        window.canvas.resize(window.innerWidth, window.innerHeight)
 });
