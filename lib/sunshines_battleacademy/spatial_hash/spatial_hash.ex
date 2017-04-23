@@ -4,9 +4,23 @@ defmodule SunshinesBattleacademy.SpatialHash do
   use Bitwise
 
   # SunshinesBattleacademy.SpatialHash.findBlock([%{x: 0, y: 1, z: 0}]) 
-  def findBlock(pos, opts \\ []) do
+  def findBlockFromPosition(pos, opts \\ []) do
+    # TODO Parallelize
     for	n <- pos do
-        ConCache.get(:hash_table, hash(n.x, n.y, n.z))
+        loc = ConCache.get(:hash_table, hash(n.x, n.y, n.z))
+        for n <- loc.value do
+          if n.pos == pos do
+            findBlock(n.pointer)
+          end
+        end
+    end
+  end
+
+  # Given hash id fetch block
+  def findBlock(block_id_list, opts \\ []) when is_list(block_id_list) do
+    # TODO Parallelize
+    for n <- block_id_list do
+      ConCache.get(:voxel, n)
     end
   end
 
@@ -16,10 +30,10 @@ defmodule SunshinesBattleacademy.SpatialHash do
 
   # SunshinesBattleacademy.SpatialHash.putBlockPos([%{pos: %{x: 0, y: 1, z: 0}, data: []}])
   def putBlockPos(pos_data, opts \\ []) when is_list(pos_data) do
+    # Todo Parallize
     for	n <- pos_data do
         %{pos: pos, data: data} = n
-        fetch = []
-        ConCache.put(:hash_table, hash(pos.x, pos.y, pos.z), %ConCache.Item{value: fetch ++ data, ttl: 0})
+        SunshinesBattleacademy.SpatialHashTable.hashTableInsert(pos, data)
     end
   end
 
