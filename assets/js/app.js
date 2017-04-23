@@ -78,11 +78,15 @@ function interpolate(deltaTime)
 
     if(false) {
         let most_recent = interpolation.snapshots[interpolation.snapshots.length-1];
-        if(!most_recent) return;
+        let second_most_recent = interpolation.snapshots[interpolation.snapshots.length-2];
+        if(!most_recent || !second_most_recent) return;
         let player = World.getPlayer();
-        player.x = most_recent.x;
-        player.y = most_recent.y;
+        let dt = currentTime - most_recent.time;
+        let t = dt / (most_recent.time - second_most_recent.time);
+        player.x = lerp(player.x, most_recent.x, t);
+        player.y = lerp(player.x, most_recent.y, t);
         World.setPlayer(player);
+        console.log('aprox');
         return;
     }
 
