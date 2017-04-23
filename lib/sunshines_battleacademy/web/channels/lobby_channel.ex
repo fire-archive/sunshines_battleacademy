@@ -12,24 +12,26 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     {:error, %{reason: "unauthorized"}}
   end
   
-  def handle_info(:after_join, socket) do
-    broadcast! socket, "player_joined", %{body: "aoeu"}
-    {:noreply, socket}
-  end
-  
   def terminate(reason, socket) do
     Logger.debug"> leave #{inspect reason}"
     :ok
   end
   
-  def handle_in("movement_heartbeat", payload, socket) do
-    Logger.debug"Receiving movement heartbeat"
-    push socket, "state_update", %{"Hello": "World"}
+  def handle_in("gotit", payload, socket) do
+    ConCache.put(:game_map, socket.assigns[:user_id], %{nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}})
     {:noreply, socket}
   end
 
-  def handle_in("gotit", payload, socket) do
-    ConCache.put(:game_world, socket.assigns[:user_id], %{nickname: payload["nickname"], hue: payload["hue"], target: {0,0}, position: {0,0}})
+  def handle_in("movement", payload, socket) do
+    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_value) ->
+      position_x = old_value.position["x"] + payload["target"]["x"]
+      position_y = old_value.position["y"] + payload["target"]["y"]
+      new_position = %{x: position_x, y: position_y}
+
+      new_value = %{old_value | position: new_position, target: payload["target"]}
+      {:ok, new_value}
+    end)
+    push socket, "state_update", %{data: ConCache.get(:game_map, socket.assigns[:user_id])}
     {:noreply, socket}
   end
 end

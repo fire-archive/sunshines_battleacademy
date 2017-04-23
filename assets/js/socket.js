@@ -65,17 +65,17 @@ function connect(player) {
     });
 
     channel.join()
-    .receive("ok", resp => { 
+    .receive("ok", resp => {
         console.log("Joined game successfully", resp);
-        // Send gotit
+
         channel.push("gotit", player);
+
+        setInterval(() => {
+            channel.push("movement", {target: {x: 1, y: 1}});
+            console.log("pushing");
+        }, 50);
     })
     .receive("error", resp => { console.log("Unable to join", resp) })
-
-    setInterval(() => {
-        channel.push("movement_heartbeat", {target: {x: 1, y: 1}});
-        console.log("pushing");
-    }, 50);
 }
 
 export default {

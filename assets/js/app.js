@@ -32,7 +32,7 @@ function onGameStart(nickname, type, hue) {
     World.spawnPlayer(type === 'spectate', nickname, hue);
     
     // Connect to chat
-    //chat.connect(gameNetwork.socket, nickname);
+    chat.connect(gameNetwork.socket, nickname);
     gameNetwork.connect(World.getPlayer());
     
     // start animation loop
