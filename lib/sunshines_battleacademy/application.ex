@@ -12,6 +12,8 @@ defmodule SunshinesBattleacademy.Application do
       supervisor(SunshinesBattleacademy.Repo, []),
       # Start the endpoint when the application starts
       supervisor(SunshinesBattleacademy.Web.Endpoint, []),
+      # Work state updater
+      worker(SunshinesBattleacademy.Worker.WorldStateUpdate, []),
       # Start the ets 
       supervisor(ConCache, [[ttl: 0], [ name: :game_map]], [id: "con_cache_game_map"]),
       supervisor(ConCache, [[], [ name: :hash_table]], [id: "con_cache_hash_table"]),
