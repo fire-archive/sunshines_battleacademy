@@ -23,22 +23,13 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   end
   
   def handle_in("movement_heartbeat", payload, socket) do
-    raise Test
-    Logger.debug"receiving incoming movement heartbeat"
-    ConCache.update_existing(:game_world, socket.assigns[:user_id], fn(old_value) ->
-      position_x = old_value.position["x"] + payload.target["x"]
-      position_y = old_value.position["y"] + payload.target["y"]
-      new_position = %{x: position_x, y: position_y}
-
-      new_value = %{old_value | position: new_position, target: payload.target}
-      {:ok, new_value}
-    end)
-    push socket, "state_update", %{data: ConCache.get(:game_world, socket.assigns[:user_id])}
+    Logger.debug"Receiving movement heartbeat"
+    push socket, "state_update", %{"Hello": "World"}
     {:noreply, socket}
   end
 
   def handle_in("gotit", payload, socket) do
-    ConCache.put(:game_world, socket.assigns[:user_id], %{hello: "world"})
+    ConCache.put(:game_world, socket.assigns[:user_id], %{nickname: payload["nickname"], hue: payload["hue"], target: {0,0}, position: {0,0}})
     {:noreply, socket}
   end
 end
