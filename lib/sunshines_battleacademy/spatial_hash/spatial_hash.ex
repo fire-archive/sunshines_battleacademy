@@ -3,14 +3,10 @@ defmodule SunshinesBattleacademy.SpatialHash do
   @hash_table "hash_table"
   use Bitwise
 
+  # SunshinesBattleacademy.SpatialHash.findBlock([%{x: 0, y: 1, z: 0}]) 
   def findBlock(pos, opts \\ []) do
     for	n <- pos do
-        try do
-          out = Riak.find({"strongly_consistent", @hash_table}, to_string(hash(n.x, n.y, n.z)))
-          {:ok, out}
-        catch
-          :exit, _ -> {:error, "There was an error finding the key."}
-        end
+        ConCache.get(:hash_table, hash(n.x, n.y, n.z))
     end
   end
 
@@ -18,12 +14,12 @@ defmodule SunshinesBattleacademy.SpatialHash do
     for n <- pos, do: %{location: {n.x, n.y, n.z}, data: nil}
   end
 
+  # SunshinesBattleacademy.SpatialHash.putBlockPos([%{pos: %{x: 0, y: 1, z: 0}, data: []}])
   def putBlockPos(pos_data, opts \\ []) when is_list(pos_data) do
     for	n <- pos_data do
         %{pos: pos, data: data} = n
         fetch = []
-        o = Riak.Object.create(type: "strongly_consistent", bucket: @hash_table, key: to_string(hash(n.x, n.y, n.z)), data: fetch ++ data)
-        Riak.put(o)
+        ConCache.put(:hash_table, hash(pos.x, pos.y, pos.z), %ConCache.Item{value: fetch ++ data, ttl: 0})
     end
   end
 
