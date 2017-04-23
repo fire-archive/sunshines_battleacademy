@@ -61,7 +61,7 @@ function move(channel) {
     setTimeout(() => {
         channel.push("movement", {target: {x: 5, y: 5}});
         move(channel);
-    }, 50+Math.floor(Math.random() * 30));
+    }, 50);
 }
 
 function connect(World, Interpolation) {
