@@ -46,7 +46,12 @@ function draw(bg) {
     drawPlayers(screenWidth, screenHeight);
 }
 
+function getPlayer() {
+    return localPlayer;
+}
+
 export default {
     draw,
-    spawnPlayer
+    spawnPlayer,
+    getPlayer
 }

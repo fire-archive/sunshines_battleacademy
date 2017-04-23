@@ -21,7 +21,7 @@ defmodule SunshinesBattleacademy.Web.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
-    {:ok, socket}
+    {:ok, assign(socket, :user_id, UUID.uuid1())}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
@@ -34,5 +34,5 @@ defmodule SunshinesBattleacademy.Web.UserSocket do
   #     SunshinesBattleacademy.Web.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: nil
+  def id(_socket), do: "user:#{_socket.assigns.user_id}"
 end

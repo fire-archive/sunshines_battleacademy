@@ -7,7 +7,7 @@ import {Socket} from "phoenix"
 
 let socket = new Socket("/socket", {
     params: {token: window.userToken},
-    logger: ((kind, msg, data) => { console.log(`${kind}: ${msg}`, data) })
+    //logger: ((kind, msg, data) => { console.log(`${kind}: ${msg}`, data) })
 });
 
 // When you connect, you'll often need to authenticate the client.
@@ -57,14 +57,28 @@ let socket = new Socket("/socket", {
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("room:lobby", {})
+function connect(player) {
+    let channel = socket.channel("room:lobby", {})
 
-channel.on("new_msg", payload => {
-    console.log("new_msg received", payload);
-});
+    channel.on("state_update", payload => {
+        console.log("world state update received!", payload);
+    });
 
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+    channel.join()
+    .receive("ok", resp => { 
+        console.log("Joined game successfully", resp);
+        // Send gotit
+        channel.push("gotit", player);
+    })
+    .receive("error", resp => { console.log("Unable to join", resp) })
 
-export default socket
+    setInterval(() => {
+        channel.push("movement_heartbeat", {target: {x: 1, y: 1}});
+        console.log("pushing");
+    }, 50);
+}
+
+export default {
+    socket,
+    connect
+}

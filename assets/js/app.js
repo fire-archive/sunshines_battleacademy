@@ -16,7 +16,7 @@ import "phoenix_html"
 import Canvas from './canvas';
 import MenuController from './menu';
 import World from './world';
-import socket from './socket';
+import gameNetwork from './socket';
 import chat from './chat';
 
 let gameStarted = false, animLoopHandle = undefined;
@@ -32,7 +32,8 @@ function onGameStart(nickname, type, hue) {
     World.spawnPlayer(type === 'spectate', nickname, hue);
     
     // Connect to chat
-    chat.connect(socket, nickname);
+    //chat.connect(gameNetwork.socket, nickname);
+    gameNetwork.connect(World.getPlayer());
     
     // start animation loop
     if(!animLoopHandle)
