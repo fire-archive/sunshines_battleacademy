@@ -33,7 +33,7 @@ function onGameStart(nickname, type, hue) {
     
     // Connect to chat
     chat.connect(gameNetwork.socket, nickname);
-    gameNetwork.connect(World.getPlayer());
+    gameNetwork.connect(World);
     
     // start animation loop
     if(!animLoopHandle)

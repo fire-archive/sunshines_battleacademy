@@ -24,8 +24,8 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def handle_in("movement", payload, socket) do
     ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_value) ->
-      position_x = old_value.position["x"] + payload["target"]["x"]
-      position_y = old_value.position["y"] + payload["target"]["y"]
+      position_x = old_value[:position][:x] + payload["target"]["x"]
+      position_y = old_value[:position][:y] + payload["target"]["y"]
       new_position = %{x: position_x, y: position_y}
 
       new_value = %{old_value | position: new_position, target: payload["target"]}

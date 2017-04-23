@@ -50,8 +50,13 @@ function getPlayer() {
     return localPlayer;
 }
 
+function setPlayer(player) {
+    localPlayer = player;
+}
+
 export default {
     draw,
     spawnPlayer,
-    getPlayer
+    getPlayer,
+    setPlayer
 }

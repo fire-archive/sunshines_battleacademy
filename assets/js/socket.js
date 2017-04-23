@@ -57,21 +57,25 @@ let socket = new Socket("/socket", {
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-function connect(player) {
+function connect(World) {
     let channel = socket.channel("room:lobby", {})
 
     channel.on("state_update", payload => {
-        console.log("world state update received!", payload);
+        console.log("world state update received!");
+        World.setPlayer(Object.assign(World.getPlayer(), {}, {
+            x: payload.data.position.x,
+            y: payload.data.position.y
+        }));
     });
 
     channel.join()
     .receive("ok", resp => {
         console.log("Joined game successfully", resp);
 
-        channel.push("gotit", player);
+        channel.push("gotit", World.getPlayer());
 
         setInterval(() => {
-            channel.push("movement", {target: {x: 1, y: 1}});
+            channel.push("movement", {target: {x: 5, y: 5}});
             console.log("pushing");
         }, 50);
     })
