@@ -20,17 +20,18 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def handle_info(:work, socket) do
     players = ConCache.get(:game_map, :player_list)
-    map = for {user_id, id} <- players do
-      ConCache.update_existing(:game_map, user_id, fn(elem) ->
-        target = normalize_target(elem.target)
-        new_position = %{x: elem.position[:x] + target[:x], y: elem.position[:y] + target[:y]}
-        {:ok, %{elem | position: new_position}}
-      end)
 
+    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(elem) ->
+      target = normalize_target(elem.target)
+      new_position = %{x: elem.position[:x] + target[:x], y: elem.position[:y] + target[:y]}
+      {:ok, %{elem | position: new_position}}
+    end)
+
+    map = for {user_id, id} <- players do
       ConCache.get(:game_map, user_id)
       # Use target to calculate a new position for this player
     end
-    broadcast! socket, "state_update", %{map: map}
+    push socket, "state_update", %{map: map}
     {:noreply, socket}
   end
 
