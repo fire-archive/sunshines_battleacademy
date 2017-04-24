@@ -56,7 +56,19 @@ let socket = new Socket("/socket", {
 
 socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
+function normalizeVec2(vec) {
+    let length = Math.sqrt((vec.x*vec.x) + (vec.y*vec.y));
+    return {x: vec.x/length, y: vec.y/length};
+}
+
+// Send movement heartbeat 20 times a second
+function move(channel, Canvas) {
+    setTimeout(() => {
+        channel.push("movement", {target: window.canvas.target});
+        move(channel);
+    }, 100);
+}
+
 function connect(World, Interpolation) {
     let channel = socket.channel("room:lobby", {})
 
@@ -75,9 +87,7 @@ function connect(World, Interpolation) {
 
         channel.push("gotit", World.getPlayer());
 
-        setInterval(() => {
-            channel.push("movement", {target: {x: 5, y: 5}});
-        }, 50);
+        move(channel);
     })
     .receive("error", resp => { console.log("Unable to join", resp) })
 }

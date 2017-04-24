@@ -76,16 +76,6 @@ function interpolate(deltaTime)
         return val.time > currentTime - 1000; // Keep snapshots for 1 second;
     });
 
-    if(false) {
-        let most_recent = interpolation.snapshots[interpolation.snapshots.length-1];
-        if(!most_recent) return;
-        let player = World.getPlayer();
-        player.x = most_recent.x;
-        player.y = most_recent.y;
-        World.setPlayer(player);
-        return;
-    }
-
     let previous_time = currentTime - INTERPOLATION_LATENCY;
 
     let before = interpolation.snapshots.filter((val) => { return val.time < previous_time; });
@@ -97,7 +87,7 @@ function interpolate(deltaTime)
     let player = World.getPlayer();
     let dt = after_snapshot.time - before_snapshot.time;
     let t = (previous_time - before_snapshot.time) / dt;
-    console.log(t, dt, (previous_time - before_snapshot.time));
+    
     player.x = lerp(before_snapshot.x, after_snapshot.x, t);
     player.y = lerp(before_snapshot.y, after_snapshot.y, t);
     World.setPlayer(player);

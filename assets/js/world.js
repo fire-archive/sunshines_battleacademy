@@ -8,6 +8,7 @@ let localPlayer = {
     y: 0, // will be used as our y offset
     hue: 0,
     isGhost: true,
+    target: {x: 0, y: 0}
 };
     
 function drawPlayers(screenWidth, screenHeight) {
@@ -23,8 +24,8 @@ function drawPlayers(screenWidth, screenHeight) {
     // Loop and draw remote players, ignore local if found
 }
 
-function drawGrid(width, height) {
-    window.canvas.drawGrid(-localPlayer.x, -localPlayer.y, width, height);
+function drawGrid() {
+    window.canvas.drawGrid(-localPlayer.x, -localPlayer.y);
 }
 
 function spawnPlayer(ghost, name, hue) {
@@ -36,13 +37,14 @@ function spawnPlayer(ghost, name, hue) {
 }
 
 function draw(bg) {
+    window.player = localPlayer;
     let screenWidth = window.canvas.width,
         screenHeight = window.canvas.height;
     
     window.canvas.ctx.fillStyle = '#f2fbff';
     window.canvas.ctx.fillRect(0, 0, screenWidth, screenHeight);
 
-    drawGrid(screenWidth, screenHeight);
+    drawGrid();
     drawPlayers(screenWidth, screenHeight);
 }
 
