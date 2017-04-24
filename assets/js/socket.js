@@ -77,10 +77,15 @@ function connect(World, Interpolation) {
         console.log(payload.map);
 
         let oldPlayer = World.getPlayer();
+        
+        let update = payload.map.filter((val) => {
+            return val.id === oldPlayer.id
+        })[0];
+
         Interpolation.snapshots.push({
             time: new Date().getTime(),
-            x: payload.map[0].position.x,
-            y: payload.map[0].position.y
+            x: update.position.x,
+            y: update.position.y
         });
     });
 
