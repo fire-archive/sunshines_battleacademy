@@ -15,11 +15,13 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 Set environment to prod by `export MIX_ENV=prod`.
 
-Set port by `export PORT=800`.
+Set port by `export PORT=80`.
 
 Copy `config/prod.secret.exs.example` to `config/prod.secret.exs`.
 
 Run `mix phx.gen.secret` and copy the code to the `secret_key_base` in `config/prod.secret.exs`.
+
+Modify `url: [host: "example.com", port: 80]` to point to your host `example.com` in `config/prod.exs`.
 
 Compile phoneix by `mix compile`.
 
