@@ -77,10 +77,15 @@ function connect(World, Interpolation) {
         console.log(payload.map);
 
         let oldPlayer = World.getPlayer();
+        
+        let update = payload.map.filter((val) => {
+            return val.id === oldPlayer.id
+        })[0];
+
         Interpolation.snapshots.push({
             time: new Date().getTime(),
-            x: payload.map[0].x,
-            y: payload.map[0].y
+            x: update.position.x,
+            y: update.position.y
         });
     });
 
@@ -90,16 +95,14 @@ function connect(World, Interpolation) {
         let player = World.getPlayer();
         player.id = payload.id;
         World.setPlayer(player);
-    });
-
-    channel.join()
-    .receive("ok", resp => {
-        console.log("Joined game successfully", resp);
 
         channel.push("gotit", World.getPlayer());
 
         move(channel);
-    })
+    });
+
+    channel.join()
+    .receive("ok", resp => { console.log("Joined game successfully", resp); })
     .receive("error", resp => { console.log("Unable to join", resp) })
 }
 
