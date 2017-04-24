@@ -14,12 +14,21 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   end
 
   def terminate(reason, socket) do
+    ConCache.update(:game_map, :player_list, fn(old_value) ->
+      {:ok, Map.delete(old_value, socket.assigns[:user_id])}
+      end)
     Logger.debug"> leave #{inspect reason}"
     :ok
   end
 
   def handle_in("gotit", payload, socket) do
     ConCache.put(:game_map, socket.assigns[:user_id], %{nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}})
+    Logger.debug ConCache.update(:game_map, :player_list, fn(old_value) ->
+      old_value = if old_value == nil do
+          Map.new()
+      end
+      {:ok, Map.put(old_value, socket.assigns[:user_id], UUID.uuid4())}
+    end)
     {:noreply, socket}
   end
 
