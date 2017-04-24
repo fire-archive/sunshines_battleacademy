@@ -74,7 +74,7 @@ function connect(World, Interpolation) {
 
     channel.on("state_update", payload => {
         //console.log("received state update");
-        //console.log(payload.map);
+        console.log(payload.map);
 
         let oldPlayer = World.getPlayer();
         Interpolation.snapshots.push({
