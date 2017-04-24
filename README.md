@@ -23,7 +23,7 @@ Run `mix phx.gen.secret` and copy the code to the `secret_key_base` in `config/p
 
 Modify `url: [host: "example.com", port: 80]` to point to your host `example.com` in `config/prod.exs`.
 
-Compile phoneix by `mix compile`.
+Compile phoenix by `mix compile`.
 
 Start phoenix by `mix phx.server`.
 
