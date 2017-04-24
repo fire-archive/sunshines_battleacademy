@@ -22,17 +22,23 @@ class Canvas {
         this.element.addEventListener('mouseout', this.mouseOut.bind(this), false);
         this.element.parent = this;
         this.ctx = this.element.getContext('2d');
+        this.movement_disabled = false;
 
         this.target = {x: 0, y: 0};
     }
 
     processInput(mouse) {
+        if(this.movement_disabled) {
+            this.target = {x: 0, y: 0};
+            return;
+        }
         this.target.x = mouse.clientX - this.width / 2;
         this.target.y = mouse.clientY - this.height / 2;
     }
 
     mouseOut() {
-
+        this.target.x = 0;
+        this.target.y = 0;
     }
     
     resize(width, height) {

@@ -78,6 +78,9 @@ function connect(World, Interpolation) {
 
         let oldPlayer = World.getPlayer();
         
+        let others = payload.map.filter((val) => val.id !== oldPlayer.id);
+        World.updatePlayers(others);
+
         let update = payload.map.filter((val) => {
             return val.id === oldPlayer.id
         })[0];

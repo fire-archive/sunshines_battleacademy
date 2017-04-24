@@ -1,4 +1,4 @@
-let players = [],
+let players = {},
     projectiles = [];
 
 let localPlayer = {
@@ -19,6 +19,17 @@ function drawPlayers(screenWidth, screenHeight) {
             localPlayer.hue,
             localPlayer.nickname,
         );
+    }
+
+    for (var k in players) {
+        if (players.hasOwnProperty(k)) {
+            player = players[k];
+            window.canvas.drawPlayer(
+                screenWidth / 2 - localPlayer.x + player.x, screenHeight / 2 - localPlayer.y + player.y,
+                player.hue,
+                player.nickname,
+            );
+        }
     }
     
     // Loop and draw remote players, ignore local if found
@@ -56,9 +67,28 @@ function setPlayer(player) {
     localPlayer = player;
 }
 
+function updatePlayers(data) {
+    data.forEach(player => {
+        if(player.id in players) {
+            players[player.id].x = player.position.x;
+            players[player.id].y = player.position.y;
+        } else {
+            players[player.id] = {
+                nickname: player.nickname,
+                id: player.id,
+                x: player.position.x,
+                y: player.position.y,
+                hue: player.hue,
+                isGhost: false
+            };
+        }
+    });
+}
+
 export default {
     draw,
     spawnPlayer,
     getPlayer,
-    setPlayer
+    setPlayer,
+    updatePlayers,
 }
