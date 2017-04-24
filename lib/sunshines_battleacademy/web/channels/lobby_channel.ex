@@ -61,8 +61,8 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
       {user_id, id} = n
       elem = ConCache.get(:game_map, id)
       #Logger.debug inspect elem
-      tx = Map.get(elem.target, "x") / 10
-      ty = Map.get(elem.target, "y") / 10
+      tx = Map.get(elem.target, :x) / 10
+      ty = Map.get(elem.target, :y) / 10
       length = :math.sqrt((tx*tx) + (ty*ty))
       target = if length > 15 do
         %{x: (tx / length) * 15, y: (ty / length) * 15}
