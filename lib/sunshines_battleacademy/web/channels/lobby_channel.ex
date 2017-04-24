@@ -24,7 +24,11 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     ConCache.update(:game_map, :player_list, fn(old_value) ->
       case old_value do
         nil -> {:ok, Map.put(Map.new, socket.assigns[:user_id], UUID.uuid4())}
-        value -> {:ok, Map.put(value, socket.assigns[:user_id], UUID.uuid4())}
+        value ->
+          case ConCache.get(:game_map, user_id_to_id(socket.assigns[:user_id])) do
+            nil -> {:ok, Map.put(Map.new, socket.assigns[:user_id], UUID.uuid4())}
+            _ -> {:ok, Map.put(value, socket.assigns[:user_id], UUID.uuid4())}
+          end
       end
     end)
     ConCache.put(:game_map, user_id_to_id(socket.assigns[:user_id]), %{nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}})
