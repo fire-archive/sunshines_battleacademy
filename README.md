@@ -19,7 +19,7 @@ Set port by `export PORT=800`.
 
 Copy `config/prod.secret.exs.example` to `config/prod.secret.exs`.
 
-Copy mix phx.gen.secret to the `secret_key_base`.
+Copy `mix phx.gen.secret` code to the `secret_key_base` in `config/prod.secret.exs`.
 
 Compile phoneix by `mix compile`.
 
