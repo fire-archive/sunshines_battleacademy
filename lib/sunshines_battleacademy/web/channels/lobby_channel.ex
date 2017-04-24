@@ -5,18 +5,19 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   # handles the special `"lobby"` subtopic
   def join("room:lobby", message, socket) do
     send(self(), :after_join)
+    SunshinesBattleacademy.Worker.WorldStateUpdate.init(%{socket: socket})
     {:ok, socket}
   end
-  
+
   def join("room:" <> _private_room_id, _params, _socket) do
     {:error, %{reason: "unauthorized"}}
   end
-  
+
   def terminate(reason, socket) do
     Logger.debug"> leave #{inspect reason}"
     :ok
   end
-  
+
   def handle_in("gotit", payload, socket) do
     ConCache.put(:game_map, socket.assigns[:user_id], %{nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}})
     {:noreply, socket}

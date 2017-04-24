@@ -1,5 +1,7 @@
 defmodule SunshinesBattleacademy.Worker.WorldStateUpdate do
   use GenServer
+  use Phoenix.Channel
+  require Logger
 
   def start_link do
     GenServer.start_link(__MODULE__, %{})
@@ -11,8 +13,9 @@ defmodule SunshinesBattleacademy.Worker.WorldStateUpdate do
   end
 
   def handle_info(:work, state) do
-    # Do the work you desire here
-    IO.inspect "work"
+    unless state do
+      push state[:socket], "state_update", %{data: ConCache.get(:game_map, nil)}
+    end
     schedule_work() # Reschedule once more
     {:noreply, state}
   end
