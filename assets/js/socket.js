@@ -73,11 +73,14 @@ function connect(World, Interpolation) {
     let channel = socket.channel("room:lobby", {})
 
     channel.on("state_update", payload => {
+        console.log("received state update");
+        console.log(payload.map);
+
         let oldPlayer = World.getPlayer();
         Interpolation.snapshots.push({
             time: new Date().getTime(),
-            x: payload.data.position.x,
-            y: payload.data.position.y
+            x: payload.map[0].x,
+            y: payload.map[0].y
         });
     });
 

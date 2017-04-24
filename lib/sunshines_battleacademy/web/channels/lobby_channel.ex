@@ -35,40 +35,33 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     {:noreply, socket}
   end
 
-  def handle_in("movement", payload, socket) do
+  def handle_in("movement", %{"target" => %{"x" => tx, "y" => ty}}, socket) do
     ConCache.update_existing(:game_map, user_id_to_id(socket.assigns[:user_id]), fn(old_value) ->
-      # Normalize direction if needed
-      tx = payload["target"]["x"] / 10
-      ty = payload["target"]["y"] / 10
-      length = :math.sqrt((tx*tx) + (ty*ty))
-      target = if length > 15 do
-        %{x: (tx / length) * 15, y: (ty / length) * 15}
-      else
-        %{x: tx, y: ty}
-      end
-      
-      position_x = old_value[:position][:x] + target[:x]
-      position_y = old_value[:position][:y] + target[:y]
-      new_position = %{x: position_x, y: position_y}
-
-      new_value = %{old_value | position: new_position, target: target}
-      {:ok, new_value}
+      {:ok, %{old_value | target: %{x: tx, y: ty}}}
     end)
+
     players = ConCache.get(:game_map, :player_list)
     #Logger.debug inspect players
     map = for n <- Map.to_list(players) do
       #Logger.debug inspect n
       {user_id, id} = n
-      elem = ConCache.get(:game_map, id)
-      #Logger.debug inspect elem
-      tx = Map.get(elem.target, :x) / 10
-      ty = Map.get(elem.target, :y) / 10
-      length = :math.sqrt((tx*tx) + (ty*ty))
-      target = if length > 15 do
-        %{x: (tx / length) * 15, y: (ty / length) * 15}
-      else
-        %{x: tx, y: ty}
-      end
+
+      ConCache.update_existing(:game_map, id, fn(elem) ->
+        #Logger.debug inspect elem
+        # normalize the target direction, if necessary, and add to position
+        tx = elem.target[:x] / 10
+        ty = elem.target[:y] / 10
+        length = :math.sqrt((tx*tx) + (ty*ty))
+        target = if length > 15 do
+          %{x: (tx / length) * 15, y: (ty / length) * 15}
+        else
+          %{x: tx, y: ty}
+        end
+        new_position = %{x: elem.position[:x] + target[:x], y: elem.position[:y] + target[:y]}
+        {:ok, %{elem | position: new_position}}
+      end)
+
+      ConCache.get(:game_map, id)[:position]
       # Use target to calculate a new position for this player
     end
     push socket, "state_update", %{map: map}
