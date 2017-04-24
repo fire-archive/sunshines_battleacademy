@@ -4,7 +4,6 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   # handles the special `"lobby"` subtopic
   def join("room:lobby", message, socket) do
-    # init(%{socket: socket})
     :timer.send_interval(50, :work)
     send(self, :after_join)
     {:ok, socket}
@@ -74,10 +73,5 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     else
       %{x: tx, y: ty}
     end
-  end
-
-  def init(state) do
-    #schedule_work()
-    {:ok, state}
   end
 end
