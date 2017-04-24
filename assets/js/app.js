@@ -84,13 +84,26 @@ function interpolate(deltaTime)
     let before_snapshot = before[before.length-1];
     let after_snapshot = after[0];
 
-    let player = World.getPlayer();
+    let local = World.getPlayer();
     let dt = after_snapshot.time - before_snapshot.time;
     let t = (previous_time - before_snapshot.time) / dt;
-    
-    player.x = lerp(before_snapshot.x, after_snapshot.x, t);
-    player.y = lerp(before_snapshot.y, after_snapshot.y, t);
-    World.setPlayer(player);
+
+    after_snapshot.forEach(after_player => {
+        let before_player = undefined;
+        before_snapshot.forEach(befores => {
+            if(befores.id === after_player.id) {
+                before_player = befores;
+                return;
+            }
+        });
+
+        let x = after_player.position.x, y = after_player.position.y;
+        if(before_player !== undefined && before_player.position) {
+            x = lerp(before_player.position.x, after_player.position.x, t);
+            y = lerp(before_player.position.y, after_player.position.y, t);
+        }
+        World.updatePlayer(after_player.id, after_player.nickname, after_player.hue, x, y);
+    });
 }
 
 let oldTime = new Date().getTime();
