@@ -11,6 +11,20 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
+## Install on Linux
+
+Set environment to prod by `export MIX_ENV=prod`.
+
+Copy `config/prod.secret.exs.example` to `config/prod.secret.exs`.
+
+Copy mix phx.gen.secret to the `secret_key_base`.
+
+Compile phoneix by `mix compile`.
+
+Start phoenix by `mix phx.server`.
+
+Use your favorite service manager.
+
 ## Inspired by
 
 * https://github.com/OgarProject/Ogar

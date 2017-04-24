@@ -59,6 +59,11 @@ config :logger, level: :info
 #     config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint, server: true
 #
 
+# Configure your database
+config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
+  adapter: Sqlite.Ecto2,
+  database: "fires_sunshines_battleacademy_dev.sqlite3"
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
