@@ -11,10 +11,9 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def terminate(reason, socket) do
     ConCache.update(:game_map, :player_list, fn(old_value) ->
-      unless old_value == nil do
-        {:ok, Map.delete(old_value, user_id_to_id(socket.assigns[:user_id]))}
-      else
-        {:ok, nil}
+      case old_value do
+        nil -> {:ok, nil}
+        value -> {:ok, Map.delete(old_value, user_id_to_id(socket.assigns[:user_id]))}
       end
     end)
     Logger.debug"> leave #{inspect reason}"
@@ -23,10 +22,9 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def handle_in("gotit", payload, socket) do
     ConCache.update(:game_map, :player_list, fn(old_value) ->
-      unless old_value == nil do
-        {:ok, Map.put(old_value, socket.assigns[:user_id], UUID.uuid4())}
-      else
-        {:ok, Map.put(Map.new, socket.assigns[:user_id], UUID.uuid4())}
+      case old_value do
+        nil -> {:ok, Map.put(Map.new, socket.assigns[:user_id], UUID.uuid4())}
+        value -> {:ok, Map.put(value, socket.assigns[:user_id], UUID.uuid4())}
       end
     end)
     ConCache.put(:game_map, user_id_to_id(socket.assigns[:user_id]), %{nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}})
@@ -43,12 +41,12 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
       {:ok, new_value}
     end)
     players = ConCache.get(:game_map, :player_list)
-    Logger.debug inspect players
+    #Logger.debug inspect players
     map = for n <- Map.to_list(players) do
-      Logger.debug inspect n
+      #Logger.debug inspect n
       {user_id, id} = n
       elem = ConCache.get(:game_map, id)
-      Logger.debug inspect elem
+      #Logger.debug inspect elem
       tx = Map.get(elem.target, "x") / 10
       ty = Map.get(elem.target, "y") / 10
       length = :math.sqrt((tx*tx) + (ty*ty))
