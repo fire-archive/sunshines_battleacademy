@@ -20,6 +20,7 @@ import gameNetwork from './socket';
 import chat from './chat';
 
 let gameStarted = false, animLoopHandle = undefined;
+let interpolation = {snapshots: []};
 
 function onGameStart(nickname, type, hue) {
     gameStarted = true;
@@ -33,7 +34,7 @@ function onGameStart(nickname, type, hue) {
     
     // Connect to chat
     chat.connect(gameNetwork.socket, nickname);
-    gameNetwork.connect(World);
+    gameNetwork.connect(World, interpolation);
     
     // start animation loop
     if(!animLoopHandle)
@@ -61,8 +62,55 @@ function animloop() {
     gameLoop();
 }
 
+let INTERPOLATION_LATENCY = 100;
+
+function lerp(v0, v1, t)
+{
+    return (1 - t) * v0 + t * v1;
+}
+
+function interpolate(deltaTime)
+{
+    let currentTime = new Date().getTime();
+    interpolation.snapshots = interpolation.snapshots.filter((val, ind, array) => {
+        return val.time > currentTime - 1000; // Keep snapshots for 1 second;
+    });
+
+    if(false) {
+        let most_recent = interpolation.snapshots[interpolation.snapshots.length-1];
+        if(!most_recent) return;
+        let player = World.getPlayer();
+        player.x = most_recent.x;
+        player.y = most_recent.y;
+        World.setPlayer(player);
+        return;
+    }
+
+    let previous_time = currentTime - INTERPOLATION_LATENCY;
+
+    let before = interpolation.snapshots.filter((val) => { return val.time < previous_time; });
+    let after = interpolation.snapshots.filter((val) => { return val.time > previous_time; });
+    if(!before.length > 0 || !after.length > 0) return; // no snapshots in either direction?
+    let before_snapshot = before[before.length-1];
+    let after_snapshot = after[0];
+
+    let player = World.getPlayer();
+    let dt = after_snapshot.time - before_snapshot.time;
+    let t = (previous_time - before_snapshot.time) / dt;
+    console.log(t, dt, (previous_time - before_snapshot.time));
+    player.x = lerp(before_snapshot.x, after_snapshot.x, t);
+    player.y = lerp(before_snapshot.y, after_snapshot.y, t);
+    World.setPlayer(player);
+}
+
+let oldTime = new Date().getTime();
 function gameLoop() {
     if(gameStarted) {
+        let delta = new Date().getTime() - oldTime;
+        oldTime = new Date().getTime();
+
+        interpolate(delta);
+
         World.draw();
     }
 }

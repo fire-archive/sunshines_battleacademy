@@ -57,15 +57,16 @@ let socket = new Socket("/socket", {
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-function connect(World) {
+function connect(World, Interpolation) {
     let channel = socket.channel("room:lobby", {})
 
     channel.on("state_update", payload => {
-        console.log("world state update received!");
-        World.setPlayer(Object.assign(World.getPlayer(), {}, {
+        let oldPlayer = World.getPlayer();
+        Interpolation.snapshots.push({
+            time: new Date().getTime(),
             x: payload.data.position.x,
             y: payload.data.position.y
-        }));
+        });
     });
 
     channel.join()
@@ -76,7 +77,6 @@ function connect(World) {
 
         setInterval(() => {
             channel.push("movement", {target: {x: 5, y: 5}});
-            console.log("pushing");
         }, 50);
     })
     .receive("error", resp => { console.log("Unable to join", resp) })
