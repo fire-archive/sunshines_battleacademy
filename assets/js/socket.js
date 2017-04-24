@@ -73,8 +73,8 @@ function connect(World, Interpolation) {
     let channel = socket.channel("room:lobby", {})
 
     channel.on("state_update", payload => {
-        console.log("received state update");
-        console.log(payload.map);
+        //console.log("received state update");
+        //console.log(payload.map);
 
         let oldPlayer = World.getPlayer();
         Interpolation.snapshots.push({
@@ -82,6 +82,14 @@ function connect(World, Interpolation) {
             x: payload.map[0].x,
             y: payload.map[0].y
         });
+    });
+
+    channel.on("welcome", payload => {
+        console.log("Received welcome");
+        console.log(payload);
+        let player = World.getPlayer();
+        player.id = payload.id;
+        World.setPlayer(player);
     });
 
     channel.join()

@@ -6,6 +6,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   def join("room:lobby", message, socket) do
     # init(%{socket: socket})
     ConCache.put(:game_map, :player_list, Map.new)
+    send(self, :after_join)
     {:ok, socket}
   end
 
@@ -18,6 +19,11 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     end)
     Logger.debug"> leave #{inspect reason}"
     :ok
+  end
+
+  def handle_info(:after_join, socket) do
+    push socket, "welcome", %{id: UUID.uuid4()}
+    {:noreply, socket}
   end
 
   def handle_in("gotit", payload, socket) do
