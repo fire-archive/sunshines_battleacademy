@@ -21,7 +21,7 @@ defmodule SunshinesBattleacademy.Web.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
-    {:ok, assign(socket, :user_id, UUID.uuid1())}
+    {:ok, assign(socket, :user_id, UUID.uuid4())}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

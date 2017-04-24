@@ -28,21 +28,23 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     {:noreply, socket}
   end
 
-  def handle_in("gotit", payload, socket) do
-    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old) ->
+  def handle_in("gotit", %{"nickname" => nickname, "hue" => hue}, socket) do
+    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_player) ->
       ConCache.update(:game_map, :player_list, fn(old_value) ->
-        case old_value do
-          nil -> {:ok, Map.put(Map.new, socket.assigns[:user_id], old[:id])}
-          value -> {:ok, Map.put(value, socket.assigns[:user_id], old[:id])}
+        if old_value == nil do
+          {:ok, Map.put(Map.new, socket.assigns[:user_id], old_player[:id])}
+        else
+          {:ok, Map.put(old_value, socket.assigns[:user_id], old_player[:id])}
         end
       end)
 
-      {:ok, %{id: old[:id], nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}}}
+      {:ok, %{id: old_player[:id], nickname: nickname, hue: hue, target: %{x: 0,y: 0}, position: %{x: 0,y: 0}}}
     end)
     {:noreply, socket}
   end
 
   def handle_in("movement", %{"target" => %{"x" => tx, "y" => ty}}, socket) do
+    Logger.debug inspect socket.assigns[:user_id]
     ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_value) ->
       {:ok, %{old_value | target: %{x: tx, y: ty}}}
     end)
