@@ -66,30 +66,18 @@ function move(channel, Canvas) {
     setTimeout(() => {
         channel.push("movement", {target: window.canvas.target});
         move(channel);
-    }, 100);
+    }, 50);
 }
 
 function connect(World, Interpolation) {
     let channel = socket.channel("room:lobby", {})
 
     channel.on("state_update", payload => {
-        //console.log("received state update");
+        console.log("Received state update");
         console.log(payload.map);
-
-        let oldPlayer = World.getPlayer();
-        
-        let others = payload.map.filter((val) => val.id !== oldPlayer.id);
-        World.updatePlayers(others);
-
-        let update = payload.map.filter((val) => {
-            return val.id === oldPlayer.id
-        })[0];
-
-        Interpolation.snapshots.push({
-            time: new Date().getTime(),
-            x: update.position.x,
-            y: update.position.y
-        });
+        payload.map = payload.map.filter(player => player.nickname);
+        payload.map.time = new Date().getTime();
+        Interpolation.snapshots.push(payload.map);
     });
 
     channel.on("welcome", payload => {

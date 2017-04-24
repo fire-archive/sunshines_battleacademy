@@ -67,22 +67,33 @@ function setPlayer(player) {
     localPlayer = player;
 }
 
-function updatePlayers(data) {
-    data.forEach(player => {
-        if(player.id in players) {
-            players[player.id].x = player.position.x;
-            players[player.id].y = player.position.y;
-        } else {
-            players[player.id] = {
-                nickname: player.nickname,
-                id: player.id,
-                x: player.position.x,
-                y: player.position.y,
-                hue: player.hue,
-                isGhost: false
-            };
+function updatePlayer(id, nickname, hue, x, y) {
+    if(localPlayer.id === id) {
+        localPlayer.x = x;
+        localPlayer.y = y;
+        return;
+    }
+
+    for (var k in players) {
+        if (players.hasOwnProperty(k)) {
+            player = players[k];
+            if(player.id === id) {
+                player.x = x;
+                player.y = y;
+                return;
+            }
         }
-    });
+    }
+
+    // Doesn't exist?
+    players[id] = {
+        nickname: nickname,
+        id: id,
+        x: x,
+        y: y,
+        hue: hue,
+        isGhost: false
+    };
 }
 
 export default {
@@ -90,5 +101,5 @@ export default {
     spawnPlayer,
     getPlayer,
     setPlayer,
-    updatePlayers,
+    updatePlayer,
 }

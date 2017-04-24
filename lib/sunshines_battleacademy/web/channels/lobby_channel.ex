@@ -21,9 +21,13 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     players = ConCache.get(:game_map, :player_list)
 
     ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(elem) ->
-      target = normalize_target(elem.target)
-      new_position = %{x: elem.position[:x] + target[:x], y: elem.position[:y] + target[:y]}
-      {:ok, %{elem | position: new_position}}
+      if elem[:target] == nil do
+        {:ok, elem}
+      else
+        target = normalize_target(elem.target)
+        new_position = %{x: elem.position[:x] + target[:x], y: elem.position[:y] + target[:y]}
+        {:ok, %{elem | position: new_position}}
+      end
     end)
 
     map = for {user_id, id} <- players do
@@ -59,7 +63,11 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def handle_in("movement", payload, socket) do
     ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_value) ->
-      {:ok, %{old_value | target: %{x: payload["target"]["x"], y: payload["target"]["y"]}}}
+      if old_value[:target] == nil do
+        {:noreply, socket}
+      else
+        {:ok, %{old_value | target: %{x: payload["target"]["x"], y: payload["target"]["y"]}}}
+      end
     end)
     {:noreply, socket}
   end
