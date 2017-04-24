@@ -15,6 +15,8 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 Set environment to prod by `export MIX_ENV=prod`.
 
+Set port by `export PORT=800`.
+
 Copy `config/prod.secret.exs.example` to `config/prod.secret.exs`.
 
 Copy mix phx.gen.secret to the `secret_key_base`.
