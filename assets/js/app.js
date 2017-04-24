@@ -87,7 +87,7 @@ function interpolate(deltaTime)
     let player = World.getPlayer();
     let dt = after_snapshot.time - before_snapshot.time;
     let t = (previous_time - before_snapshot.time) / dt;
-    console.log(t, dt, (previous_time - before_snapshot.time));
+    
     player.x = lerp(before_snapshot.x, after_snapshot.x, t);
     player.y = lerp(before_snapshot.y, after_snapshot.y, t);
     World.setPlayer(player);

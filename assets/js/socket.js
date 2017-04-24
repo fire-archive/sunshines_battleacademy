@@ -56,12 +56,17 @@ let socket = new Socket("/socket", {
 
 socket.connect()
 
-// Now that you are connected, you can join channels with a topic:
-function move(channel) {
+function normalizeVec2(vec) {
+    let length = Math.sqrt((vec.x*vec.x) + (vec.y*vec.y));
+    return {x: vec.x/length, y: vec.y/length};
+}
+
+// Send movement heartbeat 20 times a second
+function move(channel, Canvas) {
     setTimeout(() => {
-        channel.push("movement", {target: {x: 5, y: 5}});
+        channel.push("movement", {target: window.canvas.target});
         move(channel);
-    }, 50);
+    }, 100);
 }
 
 function connect(World, Interpolation) {

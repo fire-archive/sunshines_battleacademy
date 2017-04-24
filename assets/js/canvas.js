@@ -18,11 +18,21 @@ class Canvas {
         this.element = document.getElementById('game_area');
         this.resize(width, height);
         
-        this.element.addEventListener('mousemove', this.processInput, false);
-        this.element.addEventListener('mouseout', this.mouseOut, false);
-        this.element.addEventListener('keypress', this.keyInput, false);
+        this.element.addEventListener('mousemove', this.processInput.bind(this), false);
+        this.element.addEventListener('mouseout', this.mouseOut.bind(this), false);
         this.element.parent = this;
         this.ctx = this.element.getContext('2d');
+
+        this.target = {x: 0, y: 0};
+    }
+
+    processInput(mouse) {
+        this.target.x = mouse.clientX - this.width / 2;
+        this.target.y = mouse.clientY - this.height / 2;
+    }
+
+    mouseOut() {
+
     }
     
     resize(width, height) {
@@ -30,19 +40,19 @@ class Canvas {
         this.element.height = this.height = height;
     }
     
-    drawGrid(offsetX, offsetY, screenWidth, screenHeight) {
+    drawGrid(offsetX, offsetY) {
         this.ctx.lineWidth = gridRenderConfig.width;
         this.ctx.strokeStyle = gridRenderConfig.color;
         this.ctx.globalAlpha = gridRenderConfig.alpha;
         this.ctx.beginPath();
-        for (let x = offsetX; x < screenWidth; x += screenHeight / gridRenderConfig.numSections) {
+        for (let x = offsetX; x < this.width; x += this.height / gridRenderConfig.numSections) {
             this.ctx.moveTo(x, 0);
-            this.ctx.lineTo(x, screenHeight);
+            this.ctx.lineTo(x, this.height);
         }
 
-        for (let y = offsetY; y < screenHeight; y += screenHeight / gridRenderConfig.numSections) {
+        for (let y = offsetY; y < this.height; y += this.height / gridRenderConfig.numSections) {
             this.ctx.moveTo(0, y);
-            this.ctx.lineTo(screenWidth, y);
+            this.ctx.lineTo(this.width, y);
         }
 
         this.ctx.stroke();
