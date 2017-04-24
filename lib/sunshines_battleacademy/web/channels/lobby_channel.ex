@@ -15,7 +15,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def terminate(reason, socket) do
     ConCache.update(:game_map, :player_list, fn(old_value) ->
-      {:ok, Map.delete(old_value, socket.assigns[:user_id])}
+      {:ok, Map.drop(old_value, socket.assigns[:user_id])}
       end)
     Logger.debug"> leave #{inspect reason}"
     :ok
@@ -23,10 +23,8 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def handle_in("gotit", payload, socket) do
     ConCache.put(:game_map, socket.assigns[:user_id], %{nickname: payload["nickname"], hue: payload["hue"], target: %{x: 0,y: 0}, position: %{x: 0,y: 0}})
-    Logger.debug ConCache.update(:game_map, :player_list, fn(old_value) ->
-      old_value = if old_value == nil do
-          Map.new()
-      end
+    ConCache.update(:game_map, :player_list, fn(old_value) ->
+      Logger.debug inspect old_value
       {:ok, Map.put(old_value, socket.assigns[:user_id], UUID.uuid4())}
     end)
     {:noreply, socket}
@@ -41,7 +39,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
       new_value = %{old_value | position: new_position, target: payload["target"]}
       {:ok, new_value}
     end)
-    push socket, "state_update", %{data: ConCache.get(:game_map, socket.assigns[:user_id])}
+    #push socket, "state_update", %{data: ConCache.get(:game_map, socket.assigns[:user_id])}
     {:noreply, socket}
   end
 end
