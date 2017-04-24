@@ -3,7 +3,7 @@ defmodule SunshinesBattleacademy.SpatialHashTable do
   def insert(pos) do
     key = SunshinesBattleacademy.SpatialHash.hash(pos.x, pos.y, pos.z)
     block_pointer = 1
-    ConCache.insert(:hash_table, key, %ConCache.Item{value: %{pos: pos, block_pointer: block_pointer}, ttl: 0})
+    ConCache.insert_new(:hash_table, key, %ConCache.Item{value: %{pos: pos, block_pointer: block_pointer}, ttl: 0})
   end
 
   def find(pos) do

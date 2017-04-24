@@ -3,9 +3,9 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   require Logger
 
   # handles the special `"lobby"` subtopic
-  def join("room:lobby", message, socket) do
+  def join("room:lobby", _message, socket) do
     :timer.send_interval(50, :work)
-    send(self, :after_join)
+    send(self(), :after_join)
     {:ok, socket}
   end
 
@@ -30,7 +30,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
       end
     end)
 
-    map = for {user_id, id} <- players do
+    map = for {user_id, _id} <- players do
       ConCache.get(:game_map, user_id)
       # Use target to calculate a new position for this player
     end
@@ -76,7 +76,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
     tx = target[:x] / 10
     ty = target[:y] / 10
     length = :math.sqrt((tx*tx) + (ty*ty))
-    return = if length > 15 do
+    if length > 15 do
       %{x: (tx / length) * 15, y: (ty / length) * 15}
     else
       %{x: tx, y: ty}

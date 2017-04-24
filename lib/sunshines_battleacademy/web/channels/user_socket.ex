@@ -34,5 +34,5 @@ defmodule SunshinesBattleacademy.Web.UserSocket do
   #     SunshinesBattleacademy.Web.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(_socket), do: "user:#{_socket.assigns.user_id}"
+  def id(socket), do: "user:#{socket.assigns.user_id}"
 end

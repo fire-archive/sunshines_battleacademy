@@ -2,15 +2,15 @@ defmodule SunshinesBattleacademy.Web.ChatChannel do
   use Phoenix.Channel
   require Logger
 
-  def join("chat:lobby", message, socket) do
+  def join("chat:lobby", _message, socket) do
     {:ok, socket}
   end
-  
+
   def join("chat:" <> _private_room_id, _params, _socket) do
     {:error, %{reason: "unauthorized"}}
   end
-  
-  def terminate(reason, socket) do
+
+  def terminate(reason, _socket) do
     Logger.debug"> leave #{inspect reason}"
     :ok
   end

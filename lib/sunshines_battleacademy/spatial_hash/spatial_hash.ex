@@ -1,10 +1,9 @@
 defmodule SunshinesBattleacademy.SpatialHash do
   @max_safe_integer 9007199254740991
-  @hash_table "hash_table"
   use Bitwise
 
   # SunshinesBattleacademy.SpatialHash.findBlock([%{x: 0, y: 1, z: 0}]) 
-  def findBlockFromPosition(pos, opts \\ []) do
+  def findBlockFromPosition(pos, _opts \\ []) do
     # TODO Parallelize
     for	n <- pos do
         loc = ConCache.get(:hash_table, hash(n.x, n.y, n.z))
@@ -17,23 +16,23 @@ defmodule SunshinesBattleacademy.SpatialHash do
   end
 
   # Given hash id fetch block
-  def findBlock(block_id_list, opts \\ []) when is_list(block_id_list) do
+  def findBlock(block_id_list, _opts \\ []) when is_list(block_id_list) do
     # TODO Parallelize
     for n <- block_id_list do
       ConCache.get(:voxel, n)
     end
   end
 
-  def findBlockPos(pos, opts \\ []) when is_list(pos) do
+  def findBlockPos(pos, _opts \\ []) when is_list(pos) do
     for n <- pos, do: %{location: {n.x, n.y, n.z}, data: nil}
   end
 
   # SunshinesBattleacademy.SpatialHash.putBlockPos([%{pos: %{x: 0, y: 1, z: 0}, data: []}])
-  def putBlockPos(pos_data, opts \\ []) when is_list(pos_data) do
+  def putBlockPos(pos_data, _opts \\ []) when is_list(pos_data) do
     # Todo Parallize
     for	n <- pos_data do
-        %{pos: pos, data: data} = n
-        SunshinesBattleacademy.SpatialHashTable.hashTableInsert(pos, data)
+        %{pos: pos, data: _data} = n
+        SunshinesBattleacademy.SpatialHashTable.insert(pos)
     end
   end
 
