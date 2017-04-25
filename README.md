@@ -37,6 +37,11 @@ mix release.init
 mix edib
 ```
 
+## Install CockroachDB
+
+```
+docker run --rm -p 26257:26257 -p 8080:8080 cockroachdb/cockroach:beta-20170420 start --insecure
+```
 ## Inspired by
 
 * https://github.com/OgarProject/Ogar

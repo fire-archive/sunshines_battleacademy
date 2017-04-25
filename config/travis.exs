@@ -11,7 +11,9 @@ config :logger, level: :warn
 
 # Configure your database
 config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
-  adapter: Sqlite.Ecto2,
-  database: "sunshines_battleacademy_test.sqlite3",
-  pool: Ecto.Adapters.SQL.Sandbox
- 
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "sunshine_battleacademy_test",
+  hostname: "localhost",
+  pool_size: 10

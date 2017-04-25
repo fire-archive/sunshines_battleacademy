@@ -51,8 +51,9 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "ifires_sunshine_battleacademy_dev",
+  username: "root",
+  password: "",
+  database: "sunshine_battleacademy_development",
   hostname: "localhost",
+  port: 26257,
   pool_size: 10

@@ -17,8 +17,7 @@ defmodule SunshinesBattleacademy.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {SunshinesBattleacademy.Application, []},
-     extra_applications: [:logger, :runtime_tools, :esqlite,
-    :exactor, :linguist, :sbroker, :sqlitex]]
+     extra_applications: [:logger, :runtime_tools, :exactor, :linguist]]
   end
 
   # Specifies which paths to compile per environment.

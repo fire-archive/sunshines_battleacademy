@@ -63,8 +63,12 @@ config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint, server: tr
 
 # Configure your database
 config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
-  adapter: Sqlite.Ecto2,
-  database: "fires_sunshines_battleacademy_dev.sqlite3"
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "sunshine_battleacademy_production",
+  hostname: "localhost",
+  pool_size: 10
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
