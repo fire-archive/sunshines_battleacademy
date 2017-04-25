@@ -50,5 +50,9 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
-  adapter: Sqlite.Ecto2,
-  database: "fires_sunshines_battleacademy_dev.sqlite3"
+  adapter: Ecto.Adapters.Postgres,
+  username: "postgres",
+  password: "postgres",
+  database: "ifires_sunshine_battleacademy_dev",
+  hostname: "localhost",
+  pool_size: 10
