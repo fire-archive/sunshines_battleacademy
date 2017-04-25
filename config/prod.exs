@@ -15,7 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
   on_init: {SunshinesBattleacademy.Web.Endpoint, :load_from_system_env, []},
-  url: [host: "0.0.0.0", port: 4000],
+  url: [host: "battleacademy.chibifire.com", port: 4000],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
@@ -58,6 +58,8 @@ config :logger, level: :info
 #
 #     config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint, server: true
 #
+
+config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint, server: true
 
 # Configure your database
 config :sunshines_battleacademy, SunshinesBattleacademy.Repo,

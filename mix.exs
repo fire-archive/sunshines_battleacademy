@@ -3,7 +3,7 @@ defmodule SunshinesBattleacademy.Mixfile do
 
   def project do
     [app: :sunshines_battleacademy,
-     version: "0.0.1",
+     version: "0.0.2",
      elixir: "~> 1.4",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -17,7 +17,8 @@ defmodule SunshinesBattleacademy.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {SunshinesBattleacademy.Application, []},
-     extra_applications: [:logger, :runtime_tools]]
+     extra_applications: [:logger, :runtime_tools, :esqlite,
+    :exactor, :linguist, :sbroker, :sqlitex]]
   end
 
   # Specifies which paths to compile per environment.
@@ -30,6 +31,7 @@ defmodule SunshinesBattleacademy.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.3.0-rc"},
      {:uuid, "~> 1.1"},
+     {:distillery, "~> 1.3"},
      {:phoenix_pubsub, "~> 1.0"},
      {:riak, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2"},

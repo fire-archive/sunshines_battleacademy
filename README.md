@@ -29,6 +29,14 @@ Start phoenix by `mix phx.server`.
 
 Use your favorite service manager.
 
+## Docker image generator
+
+```
+mix archive.install https://git.io/edib-0.10.0.ez
+mix release.init
+mix edib
+```
+
 ## Inspired by
 
 * https://github.com/OgarProject/Ogar

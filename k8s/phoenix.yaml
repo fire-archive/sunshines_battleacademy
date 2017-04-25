@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sunshines-battleacademy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sunshines-battleacademy
+    spec:
+      containers:
+      - name: sunshines-battleacademy
+        env:
+        - name: PORT
+          value: "4000"
+        image: ifire/sunshines_battleacademy:0.0.2
+        ports:
+        - containerPort: 4000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sunshines-battleacademy-service
+spec:
+  selector:
+    app: sunshines-battleacademy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 4000
+  type: LoadBalancer
