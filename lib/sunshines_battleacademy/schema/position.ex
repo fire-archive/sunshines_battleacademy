@@ -14,7 +14,7 @@ defmodule SunshinesBattleacademy.Position do
     timestamps()
   end
 
-  @required_fields ~w(x y)
+  @required_fields ~w(id x y)
   @optional_fields ~w()
 
   @doc """
@@ -22,8 +22,10 @@ defmodule SunshinesBattleacademy.Position do
   If `params` are nil, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ nil) do
+  def changeset(model, params \\ %{}) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> validate_required(@required_fields)
+    |> unique_constraint(:id)
   end
 end

@@ -10,14 +10,10 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   end
 
   def terminate(reason, socket) do
-    #ConCache.update_existing(:game_map, :player_list, fn(old_value) ->
-    #  {:ok, Map.delete(old_value, socket.assigns[:user_id])}
-    #end)
-    # Fetch entire player
-    player = SunshinesBattleacademy.Repo.get(SunshinesBattleacademy.GameItem, UUID.string_to_binary!(socket.assigns[:user_id]))  
-      |> SunshinesBattleacademy.Repo.preload(:position)
-      |> SunshinesBattleacademy.Repo.preload(:target)
-    # Delete entire player
+    {:ok, id} = Ecto.UUID.dump(socket.assigns[:user_id])
+    #player = SunshinesBattleacademy.Repo.get!(SunshinesBattleacademy.GameItem, id)  
+    #  |> SunshinesBattleacademy.Repo.preload(:position)
+    #  |> SunshinesBattleacademy.Repo.preload(:target)
     #SunshinesBattleacademy.Repo.delete(player)
 
     Logger.debug"> leave #{inspect reason}"
@@ -29,6 +25,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
     target = SunshinesBattleacademy.Repo.get(SunshinesBattleacademy.GameItem, "")  
       |> SunshinesBattleacademy.Repo.preload(:position)
+      |> SunshinesBattleacademy.Repo.preload(:target)
     
     # TODO
     # if target == nil do
@@ -48,42 +45,28 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
 
   def handle_info(:after_join, socket) do
     push socket, "welcome", %{id: socket.assigns[:user_id]}
-    # ConCache.put(:game_map, socket.assigns[:user_id], %{id: uid})
-
-    # ConCache.update(:game_map, :player_list, fn(old_value) ->
-    #   if old_value == nil do
-    #     {:ok, Map.put(Map.new, socket.assigns[:user_id], uid)}
-    #   else
-    #     {:ok, Map.put(old_value, socket.assigns[:user_id], uid)}
-    #   end
-    # end)
 
     {:noreply, socket}
   end
   def handle_in("gotit", %{"nickname" => nickname, "hue" => hue}, socket) do
     {hue, _} = Integer.parse(hue)
+    {:ok, id} = Ecto.UUID.dump(socket.assigns[:user_id])
 
-    SunshinesBattleacademy.Repo.insert(%SunshinesBattleacademy.GameItem{nickname: nickname, hue: hue, target: %SunshinesBattleacademy.Target{x: 0,y: 0}, position: %SunshinesBattleacademy.Position{x: 0,y: 0}})
-    # ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_player) ->
-    #   {:ok, }
-    # end)
+    # Ecto Multi?
+    SunshinesBattleacademy.Repo.insert(%SunshinesBattleacademy.GameItem{id: id, nickname: nickname, hue: hue, target: %SunshinesBattleacademy.Target{x: 0, y: 0}, position: %SunshinesBattleacademy.Position{x: 0, y: 0}})
+
     {:noreply, socket}
   end
 
   def handle_in("movement", payload, socket) do
 
-
-   # ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_value) ->
-   #   if old_value[:target] == nil do
-   #    {:noreply, socket}
-   #   else
-   #     {:ok, %{old_value | target: %{x: payload["target"]["x"], y: payload["target"]["y"]}}}
-   #   end
-   # end)
-
-    player = SunshinesBattleacademy.Repo.get(SunshinesBattleacademy.GameItem, UUID.string_to_binary!(socket.assigns[:user_id]))  
-      |> SunshinesBattleacademy.Repo.preload(:position)
-      |> SunshinesBattleacademy.Repo.preload(:target)
+    {:ok, id} = Ecto.UUID.dump(socket.assigns[:user_id])
+    player = SunshinesBattleacademy.Repo.get(SunshinesBattleacademy.GameItem, id)  
+    #  |> SunshinesBattleacademy.Repo.preload(:position)
+    #  |> SunshinesBattleacademy.Repo.preload(:target)
+    
+    # Move 
+    # %{old_value | target: %{x: payload["target"]["x"], y: payload["target"]["y"]}
 
     {:noreply, socket}
   end
