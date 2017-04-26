@@ -63,10 +63,7 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   def handle_in("gotit", %{"nickname" => nickname, "hue" => hue}, socket) do
     {hue, _} = Integer.parse(hue)
 
-    position = SunshinesBattleacademy.Repo.insert(%SunshinesBattleacademy.Position{x: 0,y: 0})
-    target = SunshinesBattleacademy.Repo.insert(%SunshinesBattleacademy.Target{x: 0,y: 0})
-
-    SunshinesBattleacademy.Repo.insert(%SunshinesBattleacademy.GameItem{nickname: nickname, hue: hue, target: target, position: position})
+    SunshinesBattleacademy.Repo.insert(%SunshinesBattleacademy.GameItem{nickname: nickname, hue: hue, target: %SunshinesBattleacademy.Target{x: 0,y: 0}, position: %SunshinesBattleacademy.Position{x: 0,y: 0}})
     # ConCache.update_existing(:game_map, socket.assigns[:user_id], fn(old_player) ->
     #   {:ok, }
     # end)

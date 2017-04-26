@@ -1,6 +1,7 @@
 defmodule SunshinesBattleacademy.Target do
   use Ecto.Schema
-
+  import Ecto.Changeset
+  
   @primary_key false
   @foreign_key_type :binary
   schema "target" do
@@ -11,5 +12,18 @@ defmodule SunshinesBattleacademy.Target do
     belongs_to :game_items, SunshinesBattleacademy.GameItem
 
     timestamps()
+  end
+  
+  @required_fields ~w(x y)
+  @optional_fields ~w()
+
+  @doc """
+  Creates a changeset based on the `model` and `params`.
+  If `params` are nil, an invalid changeset is returned
+  with no validation performed.
+  """
+  def changeset(model, params \\ nil) do
+    model
+    |> cast(params, @required_fields, @optional_fields)
   end
 end
