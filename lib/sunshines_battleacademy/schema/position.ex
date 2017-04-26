@@ -4,7 +4,7 @@ defmodule SunshinesBattleacademy.Position do
   @primary_key false
   @foreign_key_type :binary
   schema "position" do
-    field :id, :binary, primary_key: true
+    field :id, :binary, primary_key: true, default: Ecto.UUID.bingenerate()
     field :x, :integer
     field :y, :integer
 
