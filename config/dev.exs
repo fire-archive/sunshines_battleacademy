@@ -47,8 +47,3 @@ config :logger, :console, format: "[$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
-
-# Configure your database
-config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
-  adapter: Sqlite.Ecto2,
-  database: "fires_sunshines_battleacademy_dev.sqlite3"

@@ -8,8 +8,6 @@ defmodule SunshinesBattleacademy.Application do
 
     # Define workers and child supervisors to be supervised
     children = [
-      # Start the Ecto repository
-      supervisor(SunshinesBattleacademy.Repo, []),
       # Start the endpoint when the application starts
       supervisor(SunshinesBattleacademy.Web.Endpoint, []),
       # Start the ets 

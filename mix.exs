@@ -17,8 +17,8 @@ defmodule SunshinesBattleacademy.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {SunshinesBattleacademy.Application, []},
-     extra_applications: [:logger, :runtime_tools, :esqlite,
-    :exactor, :linguist, :sbroker, :sqlitex]]
+     extra_applications: [:logger, :runtime_tools,
+    :exactor]]
   end
 
   # Specifies which paths to compile per environment.
@@ -29,15 +29,12 @@ defmodule SunshinesBattleacademy.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.3.0-rc"},
+    [{:phoenix, "~> 1.3.0"},
      {:uuid, "~> 1.1"},
      {:distillery, "~> 1.3"},
      {:phoenix_pubsub, "~> 1.0"},
-     {:riak, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2"},
      {:poison, "~> 3.0", override: true},
-     {:sqlite_ecto2, "~> 2.0.0-dev.4"},
-     {:db_connection, "~> 1.1"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.11"},
