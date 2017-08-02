@@ -32,7 +32,7 @@ Use your favorite service manager.
 ## Docker image generator
 
 ```
-mix archive.install https://git.io/edib-0.10.0.ez
+mix archive.install hex edib
 mix release.init
 mix edib
 ```
