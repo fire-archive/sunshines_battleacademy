@@ -7,7 +7,7 @@ use Mix.Config
 # watchers to your application. For example, we use it
 # with brunch.io to recompile .js and .css sources.
 config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
-  http: [port: 4000],
+  http: [port: 4004],
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
@@ -53,7 +53,7 @@ config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "root",
   password: "",
-  database: "sunshine_battleacademy_development",
+  database: "test",
   hostname: "localhost",
   port: 26257,
   pool_size: 10
