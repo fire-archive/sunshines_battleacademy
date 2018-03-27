@@ -25,13 +25,13 @@ defmodule SunshinesBattleacademy.Web.ChannelCase do
     end
   end
 
-
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(SunshinesBattleacademy.Repo)
+
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(SunshinesBattleacademy.Repo, {:shared, self()})
     end
+
     :ok
   end
-
 end

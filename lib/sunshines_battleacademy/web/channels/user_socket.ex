@@ -2,12 +2,12 @@ defmodule SunshinesBattleacademy.Web.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:lobby", SunshinesBattleacademy.Web.LobbyChannel
-  channel "chat:lobby", SunshinesBattleacademy.Web.ChatChannel
+  channel("room:lobby", SunshinesBattleacademy.Web.LobbyChannel)
+  channel("chat:lobby", SunshinesBattleacademy.Web.ChatChannel)
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
-  transport :longpoll, Phoenix.Transports.LongPoll
+  transport(:websocket, Phoenix.Transports.WebSocket)
+  transport(:longpoll, Phoenix.Transports.LongPoll)
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

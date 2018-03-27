@@ -11,12 +11,12 @@ defmodule SunshinesBattleacademy.Web.ChatChannel do
   end
 
   def terminate(reason, _socket) do
-    Logger.debug"> leave #{inspect reason}"
+    Logger.debug("> leave #{inspect(reason)}")
     :ok
   end
 
   def handle_in("new_msg", %{"body" => body, "user" => user}, socket) do
-    broadcast! socket, "new_msg", %{user: user, body: body}
+    broadcast!(socket, "new_msg", %{user: user, body: body})
     {:noreply, socket}
   end
 end

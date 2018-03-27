@@ -6,23 +6,21 @@
 use Mix.Config
 
 # General application configuration
-config :sunshines_battleacademy,
-  ecto_repos: [SunshinesBattleacademy.Repo]
+config :sunshines_battleacademy, ecto_repos: [SunshinesBattleacademy.Repo]
 
 # Configures the endpoint
 config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "GTB+p5O2Qwmum6SHKGEz5dIK24YnqANtriL0EGGpjKEncEFvpS6w3qcDAD9pxkZf",
   render_errors: [view: SunshinesBattleacademy.Web.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: SunshinesBattleacademy.PubSub,
-           adapter: Phoenix.PubSub.PG2]
+  pubsub: [name: SunshinesBattleacademy.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-#config :pooler, pools:
+# config :pooler, pools:
 #  [[
 #      name: :riakremote1,
 #      group: :riak,
@@ -34,4 +32,4 @@ config :logger, :console,
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

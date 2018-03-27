@@ -3,11 +3,16 @@ defmodule SunshinesBattleacademy.SpatialHashTable do
   def insert(pos) do
     key = SunshinesBattleacademy.SpatialHash.hash(pos.x, pos.y, pos.z)
     block_pointer = 1
-    ConCache.insert_new(:hash_table, key, %ConCache.Item{value: %{pos: pos, block_pointer: block_pointer}, ttl: 0})
+
+    ConCache.insert_new(:hash_table, key, %ConCache.Item{
+      value: %{pos: pos, block_pointer: block_pointer},
+      ttl: 0
+    })
   end
 
   def find(pos) do
     key = SunshinesBattleacademy.SpatialHash.hash(pos.x, pos.y, pos.z)
+
     case ConCache.get(:hash_table, key) do
       nil -> {:error, "Can't find position"}
       other -> other.value
