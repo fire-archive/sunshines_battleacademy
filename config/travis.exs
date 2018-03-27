@@ -14,4 +14,3 @@ config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
   adapter: Sqlite.Ecto2,
   database: "sunshines_battleacademy_test.sqlite3",
   pool: Ecto.Adapters.SQL.Sandbox
- 

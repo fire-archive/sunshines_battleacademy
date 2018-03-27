@@ -1,13 +1,15 @@
 defmodule SunshinesBattleacademy.SpatialBlock do
   def findBlockFromPosition(pos, _opts \\ []) do
     # TODO Parallelize
-    for	n <- pos do
-        loc = ConCache.get(:hash_table, SunshinesBattleacademy.SpatialHashZord.encode({n.x, n.y, n.z}))
-        for n <- loc.value do
-          if n.pos == pos do
-            findBlock(n.pointer)
-          end
+    for n <- pos do
+      loc =
+        ConCache.get(:hash_table, SunshinesBattleacademy.SpatialHashZord.encode({n.x, n.y, n.z}))
+
+      for n <- loc.value do
+        if n.pos == pos do
+          findBlock(n.pointer)
         end
+      end
     end
   end
 
@@ -25,9 +27,9 @@ defmodule SunshinesBattleacademy.SpatialBlock do
 
   def putBlockPos(pos_data, _opts \\ []) when is_list(pos_data) do
     # Todo Parallize
-    for	n <- pos_data do
-        %{pos: pos, data: _data} = n
-        SunshinesBattleacademy.SpatialLookup.insert(pos)
+    for n <- pos_data do
+      %{pos: pos, data: _data} = n
+      SunshinesBattleacademy.SpatialLookup.insert(pos)
     end
   end
 end
