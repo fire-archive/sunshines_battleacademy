@@ -61,11 +61,6 @@ config :logger, level: :info
 
 config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint, server: true
 
-# Configure your database
-config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
-  adapter: Sqlite.Ecto2,
-  database: "fires_sunshines_battleacademy_dev.sqlite3"
-
 config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
   check_origin: ["//localhost", "//*.apps.chibifire.com"]
 
