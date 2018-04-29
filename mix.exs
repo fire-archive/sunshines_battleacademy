@@ -35,7 +35,7 @@ defmodule SunshinesBattleacademy.Mixfile do
     [
       {:phoenix, "~> 1.3.0"},
       {:uuid, "~> 1.1"},
-      {:distillery, "~> 1.3"},
+      {:distillery, "~> 1.5", runtime: false},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:phoenix_html, "~> 2.6"},
