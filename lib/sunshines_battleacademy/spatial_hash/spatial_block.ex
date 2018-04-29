@@ -1,9 +1,10 @@
 defmodule SunshinesBattleacademy.SpatialBlock do
+  alias SunshinesBattleacademy.BlockCache, as: Cache
+
   def findBlockFromPosition(pos, _opts \\ []) do
     # TODO Parallelize
     for n <- pos do
-      loc =
-        ConCache.get(:hash_table, SunshinesBattleacademy.SpatialHashZord.encode({n.x, n.y, n.z}))
+      loc = Cache.get(SunshinesBattleacademy.SpatialHashZord.encode({n.x, n.y, n.z}))
 
       for n <- loc.value do
         if n.pos == pos do
@@ -17,7 +18,7 @@ defmodule SunshinesBattleacademy.SpatialBlock do
   def findBlock(block_id_list, _opts \\ []) when is_list(block_id_list) do
     # TODO Parallelize
     for n <- block_id_list do
-      ConCache.get(:voxel, n)
+      Cache.get(n)
     end
   end
 

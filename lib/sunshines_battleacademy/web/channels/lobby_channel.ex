@@ -1,5 +1,6 @@
 defmodule SunshinesBattleacademy.Web.LobbyChannel do
   use Phoenix.Channel
+  alias SunshinesBattleacademy.Cache
   require Logger
 
   # handles the special `"lobby"` subtopic
@@ -10,8 +11,8 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   end
 
   def terminate(reason, socket) do
-    ConCache.update_existing(:game_map, :player_list, fn old_value ->
-      {:ok, Map.delete(old_value, socket.assigns[:user_id])}
+    Cache.update(:player_list, %{}, fn old_value ->
+      Map.delete(old_value, socket.assigns[:user_id])
     end)
 
     Logger.debug("> leave #{inspect(reason)}")
@@ -19,21 +20,21 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   end
 
   def handle_info(:work, socket) do
-    players = ConCache.get(:game_map, :player_list)
+    players = Cache.get(:player_list)
 
-    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn elem ->
+    Cache.update(socket.assigns[:user_id], %{position: %{x: 0, y: 0}}, fn elem ->
       if elem[:target] == nil do
-        {:ok, elem}
+        elem
       else
         target = normalize_target(elem.target)
         new_position = %{x: elem.position[:x] + target[:x], y: elem.position[:y] + target[:y]}
-        {:ok, %{elem | position: new_position}}
+        %{elem | position: new_position}
       end
     end)
 
     map =
       for {user_id, _id} <- players do
-        ConCache.get(:game_map, user_id)
+        Cache.get(user_id)
         # Use target to calculate a new position for this player
       end
 
@@ -44,40 +45,64 @@ defmodule SunshinesBattleacademy.Web.LobbyChannel do
   def handle_info(:after_join, socket) do
     uid = UUID.uuid4()
     push(socket, "welcome", %{id: uid})
-    ConCache.put(:game_map, socket.assigns[:user_id], %{id: uid})
+    Cache.set(socket.assigns[:user_id], %{id: uid})
 
-    ConCache.update(:game_map, :player_list, fn old_value ->
-      if old_value == nil do
-        {:ok, Map.put(Map.new(), socket.assigns[:user_id], uid)}
-      else
-        {:ok, Map.put(old_value, socket.assigns[:user_id], uid)}
-      end
+    Cache.update(:player_list, Map.put(Map.new(), socket.assigns[:user_id], uid), fn old_value ->
+      Map.put(old_value, socket.assigns[:user_id], uid)
     end)
 
     {:noreply, socket}
   end
 
   def handle_in("gotit", %{"nickname" => nickname, "hue" => hue}, socket) do
-    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn old_player ->
-      {:ok,
-       %{
-         id: old_player[:id],
-         nickname: nickname,
-         hue: hue,
-         target: %{x: 0, y: 0},
-         position: %{x: 0, y: 0}
-       }}
-    end)
+    Cache.update(
+      socket.assigns[:user_id],
+      %{
+        id: socket.assigns[:user_id],
+        nickname: nickname,
+        hue: hue,
+        target: %{x: 0, y: 0},
+        position: %{x: 0, y: 0}
+      },
+      fn old_player ->
+        %{
+          id: old_player[:id],
+          nickname: nickname,
+          hue: hue,
+          target: %{x: 0, y: 0},
+          position: %{x: 0, y: 0}
+        }
+      end
+    )
+
+    Cache.update(
+      socket.assigns[:user_id],
+      %{
+        id: socket.assigns[:user_id],
+        nickname: nickname,
+        hue: hue,
+        target: %{x: 0, y: 0},
+        position: %{x: 0, y: 0}
+      },
+      fn old_player ->
+        %{
+          id: old_player[:id],
+          nickname: nickname,
+          hue: hue,
+          target: %{x: 0, y: 0},
+          position: %{x: 0, y: 0}
+        }
+      end
+    )
 
     {:noreply, socket}
   end
 
   def handle_in("movement", payload, socket) do
-    ConCache.update_existing(:game_map, socket.assigns[:user_id], fn old_value ->
+    Cache.update(socket.assigns[:user_id], nil, fn old_value ->
       if old_value[:target] == nil do
-        {:noreply, socket}
       else
-        {:ok, %{old_value | target: %{x: payload["target"]["x"], y: payload["target"]["y"]}}}
+        %{old_value | target: %{x: payload["target"]["x"], y: payload["target"]["y"]}}
       end
     end)
 

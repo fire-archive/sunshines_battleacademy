@@ -20,7 +20,7 @@ defmodule SunshinesBattleacademy.Mixfile do
   def application do
     [
       mod: {SunshinesBattleacademy.Application, []},
-      extra_applications: [:logger, :runtime_tools, :exactor]
+      extra_applications: [:logger, :runtime_tools]
     ]
   end
 
@@ -42,7 +42,7 @@ defmodule SunshinesBattleacademy.Mixfile do
       {:phoenix_html, "~> 2.6"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:con_cache, "~> 0.12.0"},
+      {:nebulex, "~> 1.0.0-rc.3"},
       {:erlzord, "~> 1.0"},
       {:cowboy, "~> 1.0"}
     ]

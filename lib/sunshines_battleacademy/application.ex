@@ -10,10 +10,9 @@ defmodule SunshinesBattleacademy.Application do
     children = [
       # Start the endpoint when the application starts
       supervisor(SunshinesBattleacademy.Web.Endpoint, []),
-      # Start the ets 
-      supervisor(ConCache, [[ttl: 0], [name: :game_map]], id: "con_cache_game_map"),
-      supervisor(ConCache, [[], [name: :hash_table]], id: "con_cache_hash_table"),
-      supervisor(ConCache, [[], [name: :voxel]], id: "con_cache_voxel")
+      supervisor(SunshinesBattleacademy.Cache, []),
+      supervisor(SunshinesBattleacademy.SpatialCache, []),
+      supervisor(SunshinesBattleacademy.BlockCache, [])
       # Start your own worker by calling: SunshinesBattleacademy.Worker.start_link(arg1, arg2, arg3)
       # worker(SunshinesBattleacademy.Worker, [arg1, arg2, arg3]),
     ]

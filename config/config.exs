@@ -30,6 +30,21 @@ config :logger, :console,
 #    ] 
 #  ]
 
+config :sunshines_battleacademy, SunshinesBattleacademy.Cache,
+  adapter: Nebulex.Adapters.Local,
+  n_shards: 2,
+  gc_interval: 3600
+
+config :sunshines_battleacademy, SunshinesBattleacademy.SpatialCache,
+  adapter: Nebulex.Adapters.Local,
+  n_shards: 2,
+  gc_interval: 3600
+
+config :sunshines_battleacademy, SunshinesBattleacademy.BlockCache,
+  adapter: Nebulex.Adapters.Local,
+  n_shards: 2,
+  gc_interval: 3600
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
