@@ -1,6 +1,15 @@
 defmodule SunshinesBattleacademy.Web.Endpoint do
   use Phoenix.Endpoint, otp_app: :sunshines_battleacademy
 
+  def init(_key, config) do
+    if config[:load_from_system_env] do
+      port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
+      {:ok, Keyword.put(config, :http, [:inet6, port: port])}
+    else
+      {:ok, config}
+    end
+  end
+
   socket("/socket", SunshinesBattleacademy.Web.UserSocket)
 
   # Serve at "/" the static files from "priv/static" directory.
