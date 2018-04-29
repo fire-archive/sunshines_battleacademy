@@ -66,6 +66,9 @@ config :sunshines_battleacademy, SunshinesBattleacademy.Repo,
   adapter: Sqlite.Ecto2,
   database: "fires_sunshines_battleacademy_dev.sqlite3"
 
+config :sunshines_battleacademy, SunshinesBattleacademy.Web.Endpoint,
+  check_origin: ["//localhost", "//*.apps.chibifire.com"]
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
