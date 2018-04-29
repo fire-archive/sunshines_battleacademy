@@ -38,7 +38,6 @@ defmodule SunshinesBattleacademy.Mixfile do
       {:distillery, "~> 1.3"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
-      {:poison, "~> 3.0", override: true},
       {:phoenix_html, "~> 2.6"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
